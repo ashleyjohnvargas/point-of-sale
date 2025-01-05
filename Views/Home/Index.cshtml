@@ -1,0 +1,111 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+	Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<!--<section id="container">-->
+
+		
+			<div class="head-title">
+				<div class="left">
+					<h1>Dashboard</h1>
+					<ul class="breadcrumb">
+						<li>
+							<a href="#">Dashboard</a>
+						</li>
+						<li><i class='bx bx-chevron-right'></i></li>
+						<li>
+							<a class="active" href="#">Home</a>
+						</li>
+					</ul>
+				</div>
+				<a href="#" class="btn-download">
+					<i class='bx bxs-cloud-download'></i>
+					<span class="text">Download PDF</span>
+				</a>
+			</div>
+
+			<ul class="box-info">
+				<li>
+					<i class='bx bxs-calendar-check'></i>
+					<span class="text">
+						<h3>1020</h3> <!--Count New Orders-->
+						<p>New Order</p>
+					</span>
+				</li>
+				<li>
+					<i class='bx bxs-group'></i>
+					<span class="text">
+						<h3>2834</h3> <!--Count Customers-->
+						<p>Visitors</p> 
+					</span>
+				</li>
+				<li>
+					<i class='bx bxs-dollar-circle'></i>
+					<span class="text">
+						<h3>2543</h3>
+						<p>Total Sales</p>
+					</span>
+				</li>
+			</ul>
+
+
+			<div class="table-data">
+				<div class="order">
+					<div class="head">
+						<h3>Recent Orders</h3>
+						<i class='bx bx-search'></i>
+						<i class='bx bx-filter'></i>
+					</div>
+					<table>
+						<thead>
+							<tr>
+								<th>Customer</th>
+								<th>Order Date</th>
+								<th>Total Amount</th>
+								<th>Payment Status</th>
+								<th>Order Status</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td>
+									<p>John Doe</p> <!--CustomerName-->
+								</td>
+								<td>01-03-2025</td> <!--Date-->
+								<td style ="text-align: center">300</td> <!--TotalAmount-->
+								<td><span class="status pending">Pending</span></td> <!--PaymentStatus-->
+								<td><span class="status process">Processing</span></td> <!--OrderStatus-->
+								<td>
+							</tr>
+							<tr>
+								<td>
+									<p>Anne Lee</p> <!--CustomerName-->
+								</td>
+								<td>01-05-2025</td> <!--Date-->
+								<td style="text-align: center">5,000</td> <!--TotalAmount-->
+								<td><span class="status completed">Paid</span></td> <!--PaymentStatus-->
+								<td><span class="status completed">Processed</span></td> <!--OrderStatus-->
+					
+							</tr>
+							<tr>
+								<td>
+									<p>Zin Bal</p> <!--CustomerName-->
+								</td>
+								<td>01-05-2025</td> <!--Date-->
+								<td style="text-align: center">10,000</td> <!--TotalAmount-->
+								<td><span class="status completed">Paid</span></td> <!--PaymentStatus-->
+								<td><span class="status pending">Pending</span></td> <!--OrderStatus-->
+							</tr>
+							
+						</tbody>
+					</table>
+				</div>
+
+			</div>
+		
+	<!-- CONTENT -->
+<!--</section>-->
+
+<script src="script.js"></script>

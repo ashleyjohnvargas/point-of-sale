@@ -1,0 +1,65 @@
+﻿@{
+    ViewData["Title"] = "Checkout";
+	Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div class="head-title">
+	<div class="left">
+		<h1>Checkout</h1>
+	</div>
+</div>
+
+
+<div class="checkout-container">
+	<div class="table-data">
+		<div class="order">
+			<div class="head">
+				<h3>Shopping Cart</h3>
+				<i class='bx bx-search'></i>
+				<i class='bx bx-filter'></i>
+			</div>
+			<table>
+				<thead>
+					<tr>
+						<th>Product</th>
+						<th>Price</th>
+						<th>Quantity</th>
+						<th>Subtotal</th>
+						<th>Remove</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td>
+							<p>Mouse</p>
+						</td>
+						<td>₱300</td>
+						<td>1</td> <!--fetch from ecommerce, optional: add/subtract for editing quantity-->
+						<td>₱300</td>
+						<td>
+							<a href="#" class="btn-delete">
+								<i class='bx bxs-trash'></i> <!--Delete/optional? if may offline store-->
+							</a>
+						</td> <!--Action:Delete-->
+					</tr>
+					
+				</tbody>
+			</table>
+		</div>
+
+    <div class="box-info" style="margin-top: 0px;">
+        <h3>Summary</h3>
+		<p>Date: 01/05/2025 1:32:39 AM</p> <!--GetCurrentDateTime-->
+		<p>Invoice No.: 1</p>
+		<p>Customer: John Doe</p>
+		<p>Payment Method: COD</p>
+		<br>
+
+        <p>Subtotal: <span id="subtotal">₱300.00</span></p>
+        <h3>Total: <span id="total">₱300.00</span></h3>
+        <button class="btn-checkout">Checkout</button>
+    </div>
+</div>
+
+

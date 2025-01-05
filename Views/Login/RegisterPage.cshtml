@@ -1,0 +1,69 @@
+﻿@{
+    Layout = null;
+    ViewData["Title"] = "Register";
+}
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewData["Title"]</title>
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
+    <!-- Include CSS files -->
+    <link rel="stylesheet" href="~/css/loginpage.css" asp-append-version="true" />
+</head>
+
+<body>
+    <div class="login-container">
+        <div class="login-box">
+            <h1>Welcome to GizmodePOS</h1>
+            <h2>Register</h2>
+
+            @if (ViewBag.ErrorMessage != null)
+            {
+                <div class="alert alert-danger">@ViewBag.ErrorMessage</div>
+            }
+
+            <form asp-action="Register" method="post">
+
+                <div class="form-group">
+                    <label for="FullName">Full Name</label>
+                    <input type="text" class="form-control" id="FullName" name="FullName" required>
+                </div><div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" class="form-control" id="email" name="email" required />
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" class="form-control" id="password" name="password" required />
+                </div>
+                <div class="form-group">
+                    <label for="ConfirmPassword">Confirm Password</label>
+                    <input type="password" class="form-control" id="ConfirmPassword" name="ConfirmPassword" required>
+                </div>
+                <button type="submit" class="btn btn-primary">Register</button>
+
+
+            </form>
+            <p style="color: black">
+                Already have an account? <a asp-controller="Login" asp-action="LoginPage">Login here</a>.
+            </p>
+
+            <br>
+        </div>
+    </div>
+
+    <!-- Optional JavaScript -->
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/js/loginpage.js"></script>
+</body>
+
+</html>
+
+

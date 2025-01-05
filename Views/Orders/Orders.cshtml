@@ -1,0 +1,132 @@
+﻿@using POS1.Models;
+
+@{
+    ViewData["Title"] = "Orders";
+	Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+	<div class="head-title">
+		<div class="left">
+			<h1>Orders</h1>
+		</div>
+	</div>
+
+
+	<div class="checkout-container">
+		<div class="table-data">
+			<div class="order">
+				<div class="head">
+					<h3>Transactions</h3>
+					<i class='bx bx-search'></i>
+					<i class='bx bx-filter'></i>
+				</div>
+				<table>
+					<thead>
+						<tr>
+							<th>Invoice No.</th>
+							<th>Customer Name</th> <!--From Ecommerce-->
+							<th>Date</th>
+							<th>Total Amount</th>
+							<th>Payment Method</th>
+							<th>Payment Status</th>
+							<th>Order Status</th>
+							<th>View Invoice</th> <!--Full Invoice with the list of products, quantity, subtotal, totalAmount, paymentMethod, deliveryAddress, phoneNumber-->
+							<th>Action</th>
+						</tr>
+					</thead>
+
+					<tbody>
+						<tr>
+							<td>
+								<p>1</p> <!--InvoiceNo-->
+							</td>
+							<td>
+								<p>John Doe</p> <!--CustomerName-->
+							</td>
+							<td>01-03-2025</td> <!--Date-->
+							<td style ="text-align: center">₱300</td> <!--TotalAmount-->
+							<td>COD</td> <!--PaymentMethod-->
+							<td><span class="status pending">Pending</span></td> <!--PaymentStatus-->
+							<td><span class="status process">Processing</span></td> <!--OrderStatus-->
+							<td>
+								<a href="#" class="btn-download">
+									<i class='bx bxs-receipt'></i>
+									<span class="text">View Invoice</span>
+								</a>
+							</td> <!--ViewInvoice-->
+							<td>
+								<a href="#" class="btn-edit">
+									<i class='bx bxs-pencil'></i> <!--Edit-->
+								</a>
+								<a href="#" class="btn-delete">
+									<i class='bx bxs-trash'></i> <!--Delete-->
+
+								</a>
+							</td> <!--Action: Update or Delete-->
+						</tr>
+					
+						<tr>
+							<td>
+								<p>2</p> <!--InvoiceNo-->
+							</td>
+							<td>
+								<p>Anne Lee</p> <!--CustomerName-->
+							</td>
+							<td>01-05-2025</td> <!--Date-->
+							<td style="text-align: center">₱5,000</td> <!--TotalAmount-->
+							<td>Card</td> <!--PaymentMethod-->
+							<td><span class="status completed">Paid</span></td> <!--PaymentStatus-->
+							<td><span class="status completed">Processed</span></td> <!--OrderStatus-->
+							<td>
+								<a href="#" class="btn-download">
+									<i class='bx bxs-receipt'></i>
+									<span class="text">View Invoice</span>
+								</a>
+							</td> <!--ViewInvoice-->
+							<td>
+								<a href="#" class="btn-edit">
+									<i class='bx bxs-pencil'></i> <!--Edit-->
+								</a>
+								<a href="#" class="btn-delete">
+									<i class='bx bxs-trash'></i> <!--Delete-->
+
+								</a>
+							</td> <!--Action: Update or Delete-->
+						</tr>
+
+						<tr>
+							<td>
+								<p>3</p> <!--InvoiceNo-->
+							</td>
+							<td>
+								<p>Zin Bal</p> <!--CustomerName-->
+							</td>
+							<td>01-05-2025</td> <!--Date-->
+							<td style="text-align: center">₱10,000</td> <!--TotalAmount-->
+							<td>Card</td> <!--PaymentMethod-->
+							<td><span class="status completed">Paid</span></td> <!--PaymentStatus-->
+							<td><span class="status pending">Pending</span></td> <!--OrderStatus-->
+							<td>
+								<a href="#" class="btn-download">
+									<i class='bx bxs-receipt'></i>
+									<span class="text">View Invoice</span>
+								</a>
+							</td> <!--ViewInvoice-->
+							<td>
+								<a href="#" class="btn-edit">
+									<i class='bx bxs-pencil'></i> <!--Edit-->
+								</a>
+								<a href="#" class="btn-delete">
+									<i class='bx bxs-trash'></i> <!--Delete-->
+
+								</a>
+							</td> <!--Action: Update or Delete-->
+						</tr>
+					</tbody>
+				</table>
+			</div>
+    </div>       
+</div>
+
