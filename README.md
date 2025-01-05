@@ -2,7 +2,7 @@
 
 GizmodePOS is a Point of Sales System specifically designed for the Gizmode Ecommerce Web Application. 
 
-Install the following packages in the NuGet Package Manager:
+Install the following packages in the NuGet Package Manager in Visual Studio:
 Microsoft.AspNetCore.Mvc
 Microsoft.EntityFrameworkCore
 Microsoft.SqlServer.Server
