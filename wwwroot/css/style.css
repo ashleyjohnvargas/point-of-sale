@@ -654,7 +654,6 @@ body {
         width: auto;
         height: auto;
         background: transparent;
-        border-radius: none;
         color: var(--dark);
     }
 
