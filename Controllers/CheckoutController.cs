@@ -1,5 +1,6 @@
 ﻿// Controllers/CheckoutController.cs
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using POS1.Models;
 using System.Linq;
 
@@ -47,5 +48,45 @@ namespace POS1.Controllers
         {
             return View();
         }
+
+        //[HttpPost]
+        //public IActionResult Checkout(List<CartItem> cartItems, string customerName, string paymentMethod, decimal paymentAmount)
+        //{
+        //    if (cartItems == null || !cartItems.Any())
+        //    {
+        //        ModelState.AddModelError("", "The cart is empty.");
+        //        return View("Checkout");
+        //    }
+
+        //    // Calculate total amount
+        //    decimal totalAmount = cartItems.Sum(item => item.Price * item.Quantity);
+
+        //    // Calculate change
+        //    decimal changeAmount = paymentAmount - totalAmount;
+
+        //    if (changeAmount < 0)
+        //    {
+        //        ModelState.AddModelError("", "Insufficient payment. Please provide enough payment.");
+        //        return View("Checkout");
+        //    }
+
+            //// Generate invoice
+            //var invoice = new Invoice
+            //{
+            //    CustomerName = customerName,
+            //    PaymentMethod = paymentMethod,
+            //    PaymentAmount = paymentAmount,
+            //    TotalAmount = totalAmount,
+            //    ChangeAmount = changeAmount,
+            //    DateCreated = DateTime.Now
+            //};
+
+            //// Save to database
+            //_context.Invoices.Add(invoice);
+            //_context.SaveChanges();
+
+            //// Redirect to Invoice page or show confirmation
+            //return RedirectToAction("InvoiceDetails", new { id = invoice.InvoiceNumber });
+        }
+
     }
-}

@@ -3,15 +3,17 @@
 	Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-
 <div class="head-title">
 	<div class="left">
-		<h1>Checkout</h1>
+		<h1> Checkout</h1>	
+	</div>
+	<div class="right">
+		<p id="current-date" style="margin: 0; font-size: 16px; color: #555;"></p>
 	</div>
 </div>
 
 
-<div class="box-info">
+<div class="checkout-container">
 	<div class="table-data">
 		<div class="order">
 			<div class="head">
@@ -53,27 +55,53 @@
 							
 						</td>
 					</tr>
-					
 				</tbody>
 			</table>
 		</div>
-		</div>
-		</div>
+		
 
-
-    <div class="box-info" style="margin-top: 10px;">
+    <div class="box-info" style="margin-top: 0px;">
         <h3>Summary</h3>
-		<p>Date: 01/05/2025 1:32:39 AM</p> <!--GetCurrentDateTime-->
-		<p>Invoice No.: 1</p>
-		<p>Customer: John Doe</p>
-		<p>Payment Method: COD</p>
-		<br>
-
+			<p>Invoice No.: <span id="invoice-number">1</span></p>
+		<p>Customer: John Doe</p>	
         <p>Subtotal: <span id="subtotal-product1">₱0.00</span></p>
 			<h3>
 				Total: <span id="total-amount">₱0.00</span>
 			</h3>
+
+
+			<label for="payment-amount">Payment Amount:</label>
+			<input type="number" id="payment-amount" name="payment-amount" step="0.01" min="0" oninput="calculateChange()">
+
+			<label for="change-amount">Change:</label>
+			<input type="text" id="change-amount" name="change-amount" readonly>
+
+			<p>Payment Method: COD</p>
+			<br>
+
 			<button class="btn-checkout" onclick="checkout()">Checkout</button>
     </div>
 
+</div>
+</div>
 
+	<script>
+		// JavaScript to update the current date
+		function updateCurrentDate() {
+			const now = new Date();
+			const dateString = now.toLocaleString(); // Formats date and time based on user's locale
+			document.getElementById('current-date').textContent = dateString;
+		}
+
+		updateCurrentDate(); // Initial call
+		setInterval(updateCurrentDate, 1000); // Update every second
+
+
+		//Js for change calcu
+			function calculateChange() {
+			const totalAmount = parseFloat(document.getElementById('total-amount').value) || 0;
+			const paymentAmount = parseFloat(document.getElementById('payment-amount').value) || 0;
+			const change = totalAmount - paymentAmount;
+			document.getElementById('change-amount').value = change >= 0 ? change.toFixed(2) : '0.00';
+		}
+	</script>
