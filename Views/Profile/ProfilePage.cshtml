@@ -2,22 +2,16 @@
 
 @{
     ViewData["Title"] = "My Profile";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
 }
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewData["Title"]</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="~/css/dashboard.css" asp-append-version="true" />
+
+ 
     <style>
         body {
             font-family: "Poppins", serif;
-            color: black;
+           
         }
 
         h1 {
@@ -35,7 +29,6 @@
         }
 
         .card {
-            background-color: #F9F9F9;
             border-radius: 12px;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
             width: 750px;
@@ -113,36 +106,32 @@
             gap: 10px;
         }
 
-    </style>
-</head>
-<body>
+   </style>  
+
     <!-- Page Header with Go Back Icon -->
     <div class="page-header">
-        <a asp-controller="Dashboard" asp-action="Index" class="text-decoration-none" title="Go Back">
-            <i class="fa-solid fa-arrow-left fs-3 text-light"></i>
-        </a>
         <h1 class="fw-bold" style="color: #fca311;">My Profile</h1>
     </div>
 
     <!-- Profile Details in a Card -->
-    <div class="container d-flex justify-content-center mt-4" style="align-items: flex-start">
-        <div class="card">
+<div class="checkout-container" >
+    <div class="card" style="background-color: #F9F9F9">
             <div class="card-body">
                 <div class="profile-container">
                     <div class="profile-info">
-                        <p>Full Name: </p>
+                        <h3>Full Name: </h3>
                         <p>@Model.FullName</p>
                     </div>
                     <div class="profile-info">
-                        <p>Email: </p>
+                        <h3>Email: </h3>
                         <p>@Model.Email</p>
                     </div>
                     <div class="profile-info">
-                        <p>Phone Number: </p>
+                        <h3>Phone Number: </h3>
                         <p>@Model.PhoneNumber</p>
                     </div>
                     <div class="profile-info">
-                        <p>Address: </p>
+                        <h3>Address: </h3>
                         <p>@Model.Address</p>
                     </div>
                 </div>
@@ -150,10 +139,10 @@
                 <!-- Action Buttons -->
                 <div class="actions-container">
                     <a asp-action="EditProfile" class="btn btn-primary">
-                        <i class="fa-solid fa-user-edit"></i>Edit Profile
+                        <i class="bx bx-pencil"></i>Edit Profile
                     </a>
                     <a asp-action="ChangePasswordPage" class="btn btn-secondary">
-                        <i class="fa-solid fa-key"></i>Change Password
+                        <i class="bx bx-key"></i>Change Password
                     </a>
                 </div>
             </div>
@@ -173,5 +162,3 @@
             });
         });
     </script>
-</body>
-</html>

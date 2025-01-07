@@ -98,12 +98,13 @@ public class ProfileController : Controller
         return RedirectToAction("ProfilePage");
     }
 
-    // Display the EditPasswordPage
+    // Display the ChangePasswordPage
     public IActionResult ChangePasswordPage()
     {
         return View();
     }
 
+   
     // Change or Update the password
     [HttpPost]
     public IActionResult ChangePassword(string currentPassword, string newPassword, string confirmPassword)

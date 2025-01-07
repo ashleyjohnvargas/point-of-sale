@@ -11,13 +11,18 @@
 </div>
 
 
-<div class="checkout-container">
+<div class="box-info">
 	<div class="table-data">
 		<div class="order">
 			<div class="head">
-				<h3>Shopping Cart</h3>
-				<i class='bx bx-search'></i>
-				<i class='bx bx-filter'></i>
+				<h3>Shopping Cart</h3>		
+				<form action="#">
+					<div class="form-input">
+						<input type="search" placeholder="Search..."> <!--Search for product(name, id) and add to cart-->
+						<button type="submit" class="search-btn"><i class='bx bx-search'></i></button>
+					</div>
+				</form>  
+				<i class='bx bx-filter'></i> <!--Filter cart by name or price-->
 			</div>
 			<table>
 				<thead>
@@ -30,25 +35,33 @@
 					</tr>
 				</thead>
 				<tbody>
-					<tr>
+					<tr id="row-product1">
+						<td class="product-name">Mouse</td>
+						<td id="price-product1">300</td>
 						<td>
-							<p>Mouse</p>
+							<button onclick="decreaseQuantity('product1')">−</button>
+							<span id="quantity-product1">1</span>
+							<button onclick="increaseQuantity('product1')">+</button>
 						</td>
-						<td>₱300</td>
-						<td>1</td> <!--fetch from ecommerce, optional: add/subtract for editing quantity-->
-						<td>₱300</td>
+						<td id="subtotal-product1">₱0.00</td> <!-- Initial subtotal will be calculated in JavaScript -->
 						<td>
-							<a href="#" class="btn-delete">
-								<i class='bx bxs-trash'></i> <!--Delete/optional? if may offline store-->
-							</a>
-						</td> <!--Action:Delete-->
+							<button onclick="removeItem('product1')">
+								<a href="#" class="btn-delete">
+									<i class='bx bxs-trash'></i> <!--Delete-->
+								</a>
+							</button>
+							
+						</td>
 					</tr>
 					
 				</tbody>
 			</table>
 		</div>
+		</div>
+		</div>
 
-    <div class="box-info" style="margin-top: 0px;">
+
+    <div class="box-info" style="margin-top: 10px;">
         <h3>Summary</h3>
 		<p>Date: 01/05/2025 1:32:39 AM</p> <!--GetCurrentDateTime-->
 		<p>Invoice No.: 1</p>
@@ -56,10 +69,11 @@
 		<p>Payment Method: COD</p>
 		<br>
 
-        <p>Subtotal: <span id="subtotal">₱300.00</span></p>
-        <h3>Total: <span id="total">₱300.00</span></h3>
-        <button class="btn-checkout">Checkout</button>
+        <p>Subtotal: <span id="subtotal-product1">₱0.00</span></p>
+			<h3>
+				Total: <span id="total-amount">₱0.00</span>
+			</h3>
+			<button class="btn-checkout" onclick="checkout()">Checkout</button>
     </div>
-</div>
 
 

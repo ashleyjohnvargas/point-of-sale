@@ -38,5 +38,7 @@ namespace YourApp.Controllers
             var invoiceDetails = $"Invoice details for Invoice ID: {invoiceId}";
             return Content(invoiceDetails);
         }
+
+
     }
 }

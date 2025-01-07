@@ -2,29 +2,31 @@
 
 @{
     ViewData["Title"] = "Edit Profile";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
 }
 
-<!-- Include CSS files -->
-<link rel="stylesheet" href="~/css/styles.css" asp-append-version="true" />
+<div class= "container">
 
-<div class="fade-in">
     <!-- Page Header with Go Back Icon -->
-    <div class="d-flex align-items-center mb-4" style="width: 1000px; margin: 20px 0 0 26px;">
-        <a asp-action="ProfilePage" class=" title="Go Back">
-            <i class="fa-solid fa-arrow-left fs-3"></i>
-        </a>
-        <h2 class="mb-0 fw-bold" style="font-size: 1.8rem; color: #343a40;">Edit Profile</h2>
+    <div class="page-header">
+        <span>
+            <a asp-action="ProfilePage" class="nav-link" title="Go Back">
+                <i class="bx bx-arrow-back" style="color:black;"></i>
+            </a>
+            <h1 class="fw-bold" style="color: #06d6a0">Edit Profile</h1>
+        </span>
     </div>
 
     <!-- Centered Form in a Card -->
-    <div class="container d-flex justify-content-center" style="margin-bottom: 80px;">
-        <div class="card shadow-sm p-4" style="width: 100%; max-width: 750px; border-radius: 12px; background-color: #ffffff;">
+    <div class="container" style="margin-bottom: 80px;">
+        <div class="card" style="width: 100%; max-width: 750px;">
             <div class="card-body">
                 <form asp-action="UpdateProfile" method="post">
                     <!-- Full Name -->
                     <div class="form-group mb-4">
-                        <label for="FullName" class="fw-semibold" style="font-size: 1.1rem; color: #555;">Full Name</label>
-                        <input type="text" class="form-control form-control-lg" id="FullName" name="FullName" value="@Model.FullName" required>
+                        <p style="font-size: 1.1rem; color: #555;"><strong>Full Name: </strong>@Model.FullName</p>
+                    
                     </div>
 
                     <!-- Email -->
@@ -48,14 +50,14 @@
                     <!-- Submit Button -->
                     <div class="text-center">
                         <button type="submit" class="btn btn-success btn-lg px-5" style="border-radius: 25px; font-size: 1.1rem;">
-                            <i class="fa-solid fa-check-circle me-2"></i> Save Changes
+                            <i class="bx bxs-save"></i> Save Changes
                         </button>
                     </div>
 
                     <!-- Cancel Button -->
-                    <div class="text-center mt-3">
+                    <div class="text-center">
                         <a asp-action="ProfilePage" class="btn btn-secondary btn-lg px-5" style="border-radius: 25px; font-size: 1.1rem;">
-                            <i class="fa-solid fa-times-circle me-2"></i> Cancel
+                            <i class="bx bxs-cancel"></i> Cancel
                         </a>
                     </div>
                 </form>
@@ -83,13 +85,13 @@
 <!-- Custom Styling -->
 <style>
     body {
-        background-color: #f4f6f9;
         font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        width: auto 1000px;
-        margin-bottom: 50px;
-        padding: 20px;
+     
     }
 
+    h1 {
+        font-size: 1.8rem;
+    }
     h2 {
         color: #495057;
     }
@@ -123,6 +125,29 @@
             box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
             border-color: #80bdff;
         }
+
+    .btn-icon {
+        background-color: #f0f0f0;
+        border: none;
+        color: #555;
+        font-size: 16px;
+        padding: 8px 12px;
+        border-radius: 5px;
+        display: flex;
+        align-items: center;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+        .btn-icon i {
+            margin-right: 8px;
+            font-size: 18px;
+        }
+
+        .btn-icon:hover {
+            background-color: #e0e0e0;
+        }
+
 
     .btn-success {
         background-color: #28a745;

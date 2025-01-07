@@ -14,4 +14,11 @@ namespace POS1.Models
         public required string OrderStatus { get; set; }
         public int InvoiceId { get; set; } // Assume each order has an associated invoice
     }
+
+    public class StatusUpdateModel
+    {
+        public int InvoiceNumber { get; set; }
+        public string NewValue { get; set; }
+    }
+
 }

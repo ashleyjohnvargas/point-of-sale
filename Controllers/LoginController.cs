@@ -33,7 +33,7 @@ namespace POS1.Controllers
                 return RedirectToAction("Index", "Home");
             }
 
-            ViewBag.ErrorMessage = "Invalid email or password. Please check your credentials or register for an account if you don't have one.";
+            ViewBag.ErrorMessage = "Invalid email or password. Please check your credentials or contact your administrator";
             return View("LoginPage");
         }
 

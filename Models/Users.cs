@@ -20,7 +20,7 @@ namespace POS1.Models
         [StringLength(100)]
         public required string Email { get; set; }
 
-        [Required, MinLength(6)]
+        [Required, MinLength(14)] //should be 14 and with combination
         [StringLength(255)]
         public required string Password { get; set; } // Store hashed passwords
     }

@@ -19,10 +19,7 @@ namespace POS1.Controllers
             return View();
         }
 
-        /*public IActionResult Privacy()
-        {
-            return View();
-        }*/
+      
 
         [HttpGet("logout")]
         public IActionResult Logout()
