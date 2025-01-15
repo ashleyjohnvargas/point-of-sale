@@ -11,18 +11,17 @@ namespace POS1.Models
         [Key]
         public int Id { get; set; }
 
-        [Required]
         [StringLength(100)]
-        public required string FullName { get; set; }
+        public string? FullName { get; set; }
 
-        [Required]
         [EmailAddress]
         [StringLength(100)]
-        public required string Email { get; set; }
+        public string? Email { get; set; }
 
         [Required, MinLength(14)] //should be 14 and with combination
         [StringLength(255)]
-        public required string Password { get; set; } // Store hashed passwords
+        public string? Password { get; set; } // Store hashed passwords
+        public bool IsActive { get; set; }
     }
 }
 

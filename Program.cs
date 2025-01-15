@@ -7,7 +7,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Inventory service
 builder.Services.AddHttpClient<EcommerceService>(client =>
 {
-    client.BaseAddress = new Uri("http://localhost:5095/"); // Replace with Inventory System URL
+    client.BaseAddress = new Uri("https://localhost:7231/"); // Replace with Ecommerce System URL
 });
 // Add services to the container.
 builder.Services.AddControllersWithViews();

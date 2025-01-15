@@ -30,6 +30,7 @@ namespace POS1.Controllers
             {
                 HttpContext.Session.SetString("UserId", user.Id.ToString());
                 HttpContext.Session.SetString("UserFullName", user.FullName);
+                HttpContext.Session.SetString("UserEmail", user.Email);
                 return RedirectToAction("Index", "Home");
             }
 
