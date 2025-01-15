@@ -43,27 +43,30 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                        <td style="display: table-cell;" class="orders-table">Zin Bal</td>
-                            <td>01-05-2025</td>
-                            <td>₱10,000</td>
-                            <td>Card</td>
-                            <td>Paid</td>
-                            <td>Pending</td>
-                            <td>
-                                <a href="#" class="btn btn-primary btn-sm">
-                                    <i class='bx bxs-receipt'></i> Checkout
-                                </a>
-                            </td>
-                            <td>
-                                <a href="#" class="btn btn-info btn-sm btn-view">
-                                    <i class='bx bx-show'></i> View Details
-                                </a>
-                                <a href="#" class="btn btn-danger btn-sm">
-                                    <i class='bx bxs-trash'></i> Delete
-                                </a>
-                            </td>
-                        </tr>
+                        @foreach (var order in Model)
+                        {
+                            <tr>
+                                <td>@order.CustName</td>
+                                <td>@order.Date?.ToString("MM-dd-yyyy")</td>
+                                <td>₱@order.TotalAmount</td>
+                                <td>@order.PayMethod</td>
+                                <td>@order.PaymentStatus</td>
+                                <td>@order.OrdStatus</td>
+                                <td>
+                                    <a href="#" class="btn btn-primary btn-sm">
+                                        <i class='bx bxs-receipt'></i> Checkout
+                                    </a>
+                                </td>
+                                <td>
+                                    <a href="#" class="btn btn-info btn-sm btn-view">
+                                        <i class='bx bx-show'></i> View Details
+                                    </a>
+                                    <a href="#" class="btn btn-danger btn-sm">
+                                        <i class='bx bxs-trash'></i> Delete
+                                    </a>
+                                </td>
+                            </tr>
+                        }
                     </tbody>
                 </table>
 			</div>

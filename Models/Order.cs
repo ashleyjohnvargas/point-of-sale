@@ -17,5 +17,7 @@ namespace POS1.Models
 
         // Navigation property for the related Customer (Customer)
         public virtual Customer? Customer { get; set; }
+        public virtual ICollection<Invoice>? Invoices { get; set; } // Add this property
+
     }
 }

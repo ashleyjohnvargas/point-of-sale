@@ -1,12 +1,8 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace POS1.Models
+﻿namespace POS1.Models
 {
-    public class Customer
+    public class CustomerDto
     {
-        [Key]
         public int CustomerId { get; set; }
-        public int EcomId { get; set; }
         public string? CustomerName { get; set; }
         public string? Address { get; set; }
         public string? PhoneNumber { get; set; }

@@ -19,7 +19,7 @@ namespace POS1.Controllers.Api
 
         // Route: api/CustomerApi/SyncCustomer
         [HttpPost("SyncCustomer")]
-        public IActionResult SyncCustomer([FromBody] Customer customer)
+        public IActionResult SyncCustomer([FromBody] CustomerDto customer)
         {
             if (customer == null)
                 return BadRequest("Invalid customer data.");
@@ -27,16 +27,13 @@ namespace POS1.Controllers.Api
             try
             {
                 // Check if customer already exists 
-                var existingCustomer = _context.Customers.FirstOrDefault(c =>
-                    c.CustomerName == customer.CustomerName ||
-                    c.Email == customer.Email ||
-                    c.Address == customer.Address ||
-                    c.PhoneNumber == customer.PhoneNumber);
+                var existingCustomer = _context.Customers.FirstOrDefault(c => c.EcomId == customer.CustomerId);
 
                 if (existingCustomer != null)
                 {
                     // Update the existing customer record
                     existingCustomer.CustomerName = customer.CustomerName;
+                    existingCustomer.EcomId = customer.CustomerId;
                     existingCustomer.Email = customer.Email;
                     existingCustomer.Address = customer.Address;
                     existingCustomer.PhoneNumber = customer.PhoneNumber;
@@ -48,8 +45,18 @@ namespace POS1.Controllers.Api
                 }
                 else
                 {
+                    // Map the DTO to the domain model and add the new product
+                    var newCustomer = new Customer
+                    {
+                        //Id = productDto.Id, // NOTE: Ensure the IDENTITY_INSERT issue is resolved here
+                        CustomerName = customer.CustomerName,
+                        EcomId = customer.CustomerId,
+                        Email = customer.Email,
+                        Address = customer.Address,
+                        PhoneNumber = customer.PhoneNumber,
+                    };
                     // Add new customer record
-                    _context.Customers.Add(customer);
+                    _context.Customers.Add(newCustomer);
                     _context.SaveChanges();
 
                     return Ok(new { Message = "Customer created successfully!" });
