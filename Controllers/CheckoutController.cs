@@ -8,11 +8,56 @@ namespace POS1.Controllers
 {
     public class CheckoutController : Controller
     {
-        public IActionResult Checkout()
-        {
-            return View();
-        }
-        public IActionResult Index()
+		private readonly ApplicationDbContext _context;
+
+		public CheckoutController(ApplicationDbContext context)
+		{
+			_context = context;
+		}
+
+
+		[HttpGet]
+		public async Task<IActionResult> Checkout(int id) // id is the OrderId
+		{
+			// Fetch the order, customer, and items based on the OrderId
+			var order = await _context.Orders
+				.Include(o => o.Customer) // Include related customer data
+				.Include(o => o.OrderItems) // Include related order items
+				.ThenInclude(oi => oi.Product) // Include product details in order items
+				.FirstOrDefaultAsync(o => o.OrderId == id);
+
+			if (order == null)
+			{
+				return NotFound(); // Return 404 if order not found
+			}
+
+			// Prepare the CheckoutViewModel
+			var checkoutViewModel = new CheckoutViewModel
+			{
+				CustomerName = _context.Customers
+                        .Where(c => c.EcomId == order.CustomerId) // Match EcomId with CustomerId
+                        .Select(c => c.CustomerName)
+                        .FirstOrDefault() ?? "Guest",  // Safeguard for null values
+                OrderId = order.OrderId,
+				TotalAmount = order.TotalPrice,
+				PaymentMethod = order.PaymentMethod,
+				OrderItems = order.OrderItems.Select(oi => new CheckoutItemViewModel
+				{
+					ProductName = oi.Product.Name,
+					Price = oi.Product.Price,
+					Quantity = oi.Quantity,
+					Subtotal = oi.Subtotal
+				}).ToList()
+			};
+
+			// Pass the model to the view
+			return View(checkoutViewModel);
+		}
+
+
+
+
+		public IActionResult Index()
         {
             // Example: This would ideally come from the user's session or database
             var cartItems = new List<CartItem>
@@ -31,18 +76,18 @@ namespace POS1.Controllers
             return View(checkoutModel);
         }
 
-        [HttpPost]
-        public IActionResult Checkout(CheckoutModel model)
-        {
-            if (ModelState.IsValid)
-            {
-                // Logic to process checkout (e.g., payment gateway, database update)
-                // For now, we simulate success
-                return RedirectToAction("Confirmation");
-            }
+        //[HttpPost]
+        //public IActionResult Checkout(CheckoutModel model)
+        //{
+        //    if (ModelState.IsValid)
+        //    {
+        //        // Logic to process checkout (e.g., payment gateway, database update)
+        //        // For now, we simulate success
+        //        return RedirectToAction("Confirmation");
+        //    }
 
-            return View("Index", model);
-        }
+        //    return View("Index", model);
+        //}
 
         public IActionResult Confirmation()
         {

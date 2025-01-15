@@ -37,54 +37,44 @@
 					</tr>
 				</thead>
 				<tbody>
-					<tr id="row-product1">
-						<td class="product-name">Mouse</td>
-						<td id="price-product1">300</td>
-						<td>
-							<button onclick="decreaseQuantity('product1')">−</button>
-							<span id="quantity-product1">1</span>
-							<button onclick="increaseQuantity('product1')">+</button>
-						</td>
-						<td id="subtotal-product1">₱0.00</td> <!-- Initial subtotal will be calculated in JavaScript -->
-						<td>
-							<button onclick="removeItem('product1')">
-								<a href="#" class="btn-delete">
-									<i class='bx bxs-trash'></i> <!--Delete-->
-								</a>
-							</button>
-							
-						</td>
-					</tr>
+					@foreach (var item in Model.OrderItems)
+					{
+						<tr>
+							<td class="product-name">@item.ProductName</td>
+							<td>@item.Price.ToString("C")</td>
+							<td>@item.Quantity</td>
+							<td>@item.Subtotal.ToString("C")</td>
+							<td>
+								<button onclick="removeItem('@item.ProductName')">
+									<a href="#" class="btn-delete">
+										<i class='bx bxs-trash'></i> <!-- Delete -->
+									</a>
+								</button>
+							</td>
+						</tr>
+					}
 				</tbody>
 			</table>
 		</div>
 		
 
-    <div class="box-info" style="margin-top: 0px;">
-        <h3>Summary</h3>
-			<p>Invoice No.: <span id="invoice-number">1</span></p>
-		<p>Customer: John Doe</p>	
-        <p>Subtotal: <span id="subtotal-product1">₱0.00</span></p>
-			<h3>
-				Total: <span id="total-amount">₱0.00</span>
-			</h3>
-
-
+		<div class="box-info" style="margin-top: 0px;">
+			<h3>Summary</h3>	
+			<p>Customer: @Model.CustomerName</p>
+			<h3>Total: <span id="total-amount">@Model.TotalAmount.ToString("C")</span></h3>
 			<label for="payment-amount">Payment Amount:</label>
 			<input type="number" id="payment-amount" name="payment-amount" step="0.01" min="0" oninput="calculateChange()">
-
 			<label for="change-amount">Change:</label>
 			<input type="text" id="change-amount" name="change-amount" readonly>
-
-			<p>Payment Method: COD</p>
+			<p>Payment Method: @Model.PaymentMethod</p>
 			<br>
 
 			<button class="btn-checkout" onclick="checkout()">Checkout</button>
-    </div>
+		</div>
 
+	</div>
 </div>
-</div>
-
+	
 	<script>
 		// JavaScript to update the current date
 		function updateCurrentDate() {

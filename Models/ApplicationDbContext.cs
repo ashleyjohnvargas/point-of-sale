@@ -13,5 +13,7 @@ namespace POS1.Models
         public DbSet<Order> Orders { get; set; }
         public DbSet<OrderItem> OrderItems { get; set; }
         public DbSet<Invoice> Invoices { get; set; }
+        public DbSet<Transaction> Transactions { get; set; }                        
+        public DbSet<TransactionItem> TransactionItems { get; set; }
     }
 }

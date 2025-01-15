@@ -21,7 +21,8 @@ namespace YourApp.Controllers
         {
             // Fetch all orders with necessary details
             var orders = _context.Orders
-                .Include(o => o.Customer)  // Load associated Customer
+				.Where(o => !o.IsDeleted) // Exclude soft-deleted orders
+				.Include(o => o.Customer)  // Load associated Customer
                 .Include(o => o.Invoices)  // Include Invoices for payment status
                 .Select(o => new
                 {
@@ -43,9 +44,32 @@ namespace YourApp.Controllers
             return View(orders);
         }
 
+		[HttpPost]
+		public IActionResult DeleteOrder(int id)
+		{
+			// Fetch the order by ID
+			var order = _context.Orders.FirstOrDefault(o => o.OrderId == id);
 
-        // Display a list of orders
-        public IActionResult Index()
+			if (order == null)
+			{
+				// Handle the case where the order does not exist
+				return NotFound();
+			}
+
+			// Soft delete the order by setting IsDeleted to true
+			order.IsDeleted = true;
+
+			// Save changes to the database
+			_context.SaveChanges();
+
+			// Redirect back to the Orders view
+			return RedirectToAction("Orders");
+		}
+
+
+
+		// Display a list of orders
+		public IActionResult Index()
         {
             return View();
         }
