@@ -10,7 +10,7 @@ namespace POS1.Models
 
 		[ForeignKey("Order")]
 		public int? OrderId { get; set; }  // Foreign key (nullable)
-		[ForeignKey("User")]
+		[ForeignKey("Cashier")]
 		public int? CashierId { get; set; }
 		public decimal? TotalAmount { get; set; }  // Final transaction amount
 		public decimal? PaidAmount { get; set; }  // Amount paid by the customer
@@ -21,7 +21,7 @@ namespace POS1.Models
 
 		// Navigation property for the related Customer (Customer)
 		public virtual Order? Order { get; set; }
-		public virtual Users? User { get; set; }
+		public virtual Users? Cashier { get; set; }
 		public virtual ICollection<TransactionItem>? TransactionItems { get; set; } // Add this property
 	}
 }

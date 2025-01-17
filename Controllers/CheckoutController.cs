@@ -82,9 +82,10 @@ namespace POS1.Controllers
 
 			// Get the current user from the session
 			var cashierId = HttpContext.Session.GetString("UserId");
+            var cashierFullName = HttpContext.Session.GetString("UserFullName");
 
-			// Calculate the change amount
-			decimal? change = model.PaidAmount - order.TotalPrice;
+            // Calculate the change amount
+            decimal? change = model.PaidAmount - order.TotalPrice;
 
 			// Create a new Transaction
 			var transaction = new Transaction

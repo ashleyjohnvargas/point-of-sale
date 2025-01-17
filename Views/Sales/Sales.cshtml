@@ -3,6 +3,9 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+@* @model List<SalesViewModel>
+ *@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -46,17 +49,18 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <!-- Sample Record -->
-                    <tr>
-                        <td>1</td>
-                        <td>John Doe</td>
-                        <td>$200.00</td>
-                        <td>ORD12345</td>
-                        <td>Jane Smith</td>
-                        <td>2025-01-17</td>
-                        <td><a href="/receipt/ORD12345" class="action-btn">Receipt</a></td>
-                    </tr>
-                    <!-- Add more records here -->
+                    @foreach (var transaction in Model)
+                    {
+                        <tr>
+                            <td>@transaction.TransactionId</td>
+                            <td>@transaction.CustomerName</td>
+                            <td>@transaction.Amount.ToString("C")</td>
+                            <td>@transaction.OrderNumber</td>
+                            <td>@transaction.CashierName</td>
+                            <td>@transaction.SaleDate.ToString("yyyy-MM-dd")</td>
+                            <td><a href="/receipt/@transaction.OrderNumber" class="action-btn">Receipt</a></td>
+                        </tr>
+                    }
                 </tbody>
             </table>
         </div>
