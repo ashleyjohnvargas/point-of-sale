@@ -1,0 +1,42 @@
+﻿/* Additional custom styling if necessary */
+.table thead {
+    background-color: #f8f9fa;
+}
+
+.table th, .table td {
+    vertical-align: middle;
+}
+
+/* Style for the action button (Receipt link) */
+.action-btn {
+    text-decoration: none;
+    color: #fff;
+    background-color: #007bff;
+    padding: 5px 10px;
+    border-radius: 4px;
+    font-weight: bold;
+}
+
+    .action-btn:hover {
+        background-color: #0056b3;
+    }
+
+/* Hover effect for table rows */
+.table-hover tbody tr:hover {
+    background-color: #f1f1f1;
+}
+
+a {
+    text-decoration: none;
+}
+
+/* Center-align the text for headers */
+.table th, .table td {
+    text-align: center;
+}
+
+
+/* Add a bit of spacing and center the page */
+.container {
+    padding: 20px;
+}

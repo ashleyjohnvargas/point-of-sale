@@ -1,6 +1,7 @@
 ﻿@{
     ViewData["Title"] = "Checkout";
 	Layout = "~/Views/Shared/_Layout.cshtml";
+
 }
 
 <div class="head-title">
@@ -18,12 +19,12 @@
 		<div class="order">
 			<div class="head">
 				<h3>Shopping Cart</h3>		
-				<form action="#">
+				@* <form action="#">
 					<div class="form-input">
 						<input type="search" placeholder="Search..."> <!--Search for product(name, id) and add to cart-->
 						<button type="submit" class="search-btn"><i class='bx bx-search'></i></button>
 					</div>
-				</form>  
+				</form>  *@ 
 				<i class='bx bx-filter'></i> <!--Filter cart by name or price-->
 			</div>
 			<table>
@@ -58,18 +59,21 @@
 		</div>
 		
 
-		<div class="box-info" style="margin-top: 0px;">
+		<div class="box-info" style="margin-top: 0px; max-width:350px;">
 			<h3>Summary</h3>	
 			<p>Customer: @Model.CustomerName</p>
 			<h3>Total: <span id="total-amount">@Model.TotalAmount.ToString("C")</span></h3>
-			<label for="payment-amount">Payment Amount:</label>
-			<input type="number" id="payment-amount" name="payment-amount" step="0.01" min="0" oninput="calculateChange()">
-			<label for="change-amount">Change:</label>
-			<input type="text" id="change-amount" name="change-amount" readonly>
 			<p>Payment Method: @Model.PaymentMethod</p>
 			<br>
 
-			<button class="btn-checkout" onclick="checkout()">Checkout</button>
+			<form asp-action="CheckoutOrder" method="post" style="display: flex;flex-direction: column;align-items: stretch;">
+				<input type="hidden" name="OrderId" value="@Model.OrderId" />
+				<label for="payment-amount">Payment Amount:</label>
+				<input type="number" id="PaidAmount" name="PaidAmount" step="0.01" min="0">
+				<label for="change-amount">Change:</label>
+				<input type="number" id="Change" name="Change" readonly>
+				<button type="submit" class="btn-checkout" style="margin-left:0;">Checkout</button>
+			</form>
 		</div>
 
 	</div>
@@ -87,11 +91,29 @@
 		setInterval(updateCurrentDate, 1000); // Update every second
 
 
-		//Js for change calcu
-			function calculateChange() {
-			const totalAmount = parseFloat(document.getElementById('total-amount').value) || 0;
-			const paymentAmount = parseFloat(document.getElementById('payment-amount').value) || 0;
-			const change = totalAmount - paymentAmount;
-			document.getElementById('change-amount').value = change >= 0 ? change.toFixed(2) : '0.00';
-		}
+		// Wait for the page to load
+		 document.addEventListener('DOMContentLoaded', function () {
+				const paidAmountInput = document.getElementById('PaidAmount');
+				const changeInput = document.getElementById('Change');
+				const totalAmount = parseFloat('@Model.TotalAmount'); // TotalAmount from the view
+
+			// Function to update the change when paid amount is entered
+			function updateChange() {
+				const paidAmount = parseFloat(paidAmountInput.value) || 0;
+				const change = paidAmount - totalAmount;
+				changeInput.value = change >= 0 ? change.toFixed(2) : 0;
+			}
+
+			// Add event listener to the PaidAmount input to update change dynamically
+			paidAmountInput.addEventListener('input', updateChange);
+		});
+
+
+		// //Js for change calcu
+		// 	function calculateChange() {
+		// 	const totalAmount = parseFloat(document.getElementById('total-amount').value) || 0;
+		// 	const paymentAmount = parseFloat(document.getElementById('payment-amount').value) || 0;
+		// 	const change = totalAmount - paymentAmount;
+		// 	document.getElementById('change-amount').value = change >= 0 ? change.toFixed(2) : '0.00';
+		// }
 	</script>

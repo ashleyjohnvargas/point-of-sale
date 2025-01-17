@@ -21,7 +21,7 @@ namespace YourApp.Controllers
         {
             // Fetch all orders with necessary details
             var orders = _context.Orders
-				.Where(o => !o.IsDeleted) // Exclude soft-deleted orders
+				.Where(o => !o.IsDeleted && o.OrderStatus == "Order Placed") // Exclude soft-deleted orders and filter by OrderStatus
 				.Include(o => o.Customer)  // Load associated Customer
                 .Include(o => o.Invoices)  // Include Invoices for payment status
                 .Select(o => new
@@ -55,6 +55,9 @@ namespace YourApp.Controllers
 				// Handle the case where the order does not exist
 				return NotFound();
 			}
+
+			// Set the OrderStatus to "Cancelled"
+			order.OrderStatus = "Cancelled";
 
 			// Soft delete the order by setting IsDeleted to true
 			order.IsDeleted = true;

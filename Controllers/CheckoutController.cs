@@ -15,6 +15,11 @@ namespace POS1.Controllers
 			_context = context;
 		}
 
+        public IActionResult BlankCheckout()
+        {
+            return View();
+        }
+
 
 		[HttpGet]
 		public async Task<IActionResult> Checkout(int id) // id is the OrderId
@@ -28,8 +33,9 @@ namespace POS1.Controllers
 
 			if (order == null)
 			{
-				return NotFound(); // Return 404 if order not found
-			}
+                //return RedirectToAction("BlankCheckout"); // Return a specific view for this case
+                return NotFound(); // Return 404 if order not found
+            }
 
 			// Prepare the CheckoutViewModel
 			var checkoutViewModel = new CheckoutViewModel
@@ -50,9 +56,86 @@ namespace POS1.Controllers
 				}).ToList()
 			};
 
+
 			// Pass the model to the view
 			return View(checkoutViewModel);
 		}
+
+
+
+		[HttpPost]
+		public IActionResult CheckoutOrder(CheckoutOrderModel model)
+		{
+			// Fetch the order from the Orders table
+			var order = _context.Orders
+				.Include(o => o.OrderItems)  // Include OrderItems for product details
+				.FirstOrDefault(o => o.OrderId == model.OrderId);
+
+			if (order == null)
+			{
+				// Return a NotFound response if the order does not exist
+				return NotFound();
+			}
+
+			// Update the OrderStatus to "Order Confirmed"
+			order.OrderStatus = "Order Confirmed";
+
+			// Get the current user from the session
+			var cashierId = HttpContext.Session.GetString("UserId");
+
+			// Calculate the change amount
+			decimal? change = model.PaidAmount - order.TotalPrice;
+
+			// Create a new Transaction
+			var transaction = new Transaction
+			{
+				OrderId = model.OrderId,
+				CashierId = int.Parse(cashierId),  // Assuming UserId is stored as a string and needs to be parsed to int
+				TotalAmount = order.TotalPrice,
+				PaidAmount = model.PaidAmount,
+				Change = change,
+				PaymentStatus = "Paid",
+				PaymentMethod = order.PaymentMethod,
+				TransactionDate = DateTime.Now
+			};
+
+			// Add the transaction to the Transactions table
+			_context.Transactions.Add(transaction);
+			_context.SaveChanges(); // Save to get the generated TransactionId
+
+			// Create TransactionItems for the order's OrderItems
+			foreach (var orderItem in order.OrderItems)
+			{
+				var transactionItem = new TransactionItem
+				{
+					TransactionId = transaction.TransactionId,  // Set the generated TransactionId
+					ProductId = orderItem.ProductId,  // ProductId from OrderItems
+					Quantity = orderItem.Quantity,  // Quantity from OrderItems
+					Subtotal = orderItem.Subtotal  // Subtotal from OrderItems
+				};
+				_context.TransactionItems.Add(transactionItem);
+			}
+
+			// Create a Payment record for the transaction
+			var payment = new Payment
+			{
+				TransactionId = transaction.TransactionId,  // Set the generated TransactionId
+				PaymentType = order.PaymentMethod,  // PaymentMethod from the Orders table
+				Amount = model.PaidAmount,
+				PaymentDate = DateTime.Now
+			};
+			_context.Payments.Add(payment);
+
+			// Save all changes to the database
+			_context.SaveChanges();
+
+			TempData["ShowPopup"] = true; // Indicate that the popup should be shown
+			TempData["PopupMessage"] = "Order has been successfully confirmed!";
+
+			// Redirect to a success or confirmation page
+			return RedirectToAction("Sales", "Sales");  // Replace with your actual success page or action
+		}
+
 
 
 

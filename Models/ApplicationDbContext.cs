@@ -15,5 +15,6 @@ namespace POS1.Models
         public DbSet<Invoice> Invoices { get; set; }
         public DbSet<Transaction> Transactions { get; set; }                        
         public DbSet<TransactionItem> TransactionItems { get; set; }
+        public DbSet<Payment> Payments { get; set; }
     }
 }

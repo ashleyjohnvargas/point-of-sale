@@ -1,0 +1,69 @@
+﻿@{
+    ViewData["Title"] = "Sales";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sales</title>
+    <!-- Add Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="~/css/sales.css" />
+</head>
+<body>
+    @if (TempData["ShowPopup"] != null && (bool)TempData["ShowPopup"])
+    {
+        <script>
+            document.addEventListener("DOMContentLoaded", function () {
+                Swal.fire({
+                    title: 'Success!',
+                    text: '@TempData["PopupMessage"]',
+                    icon: 'success',
+                    confirmButtonText: 'OK'
+                });
+            });
+        </script>
+    }
+    <div class="container mt-5">
+        <!-- Page Title -->
+        <h1 class="text-center mb-4">Sales</h1>
+
+        <!-- Sales Table -->
+        <div class="table-responsive">
+            <table class="table table-bordered table-striped table-hover text-center">
+                <thead class="thead-light">
+                    <tr>
+                        <th>#</th>
+                        <th>Customer</th>
+                        <th>Amount</th>
+                        <th>Order Number</th>
+                        <th>Cashier</th>
+                        <th>Date</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Sample Record -->
+                    <tr>
+                        <td>1</td>
+                        <td>John Doe</td>
+                        <td>$200.00</td>
+                        <td>ORD12345</td>
+                        <td>Jane Smith</td>
+                        <td>2025-01-17</td>
+                        <td><a href="/receipt/ORD12345" class="action-btn">Receipt</a></td>
+                    </tr>
+                    <!-- Add more records here -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Add Bootstrap JS (optional, for advanced functionality) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
+
