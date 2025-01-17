@@ -8,5 +8,6 @@
         public int? OrderNumber { get; set; }
         public string? CashierName { get; set; }
         public DateTime? SaleDate { get; set; }
+        public string? OrderStatus { get; set; }
     }
 }

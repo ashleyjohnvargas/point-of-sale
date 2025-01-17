@@ -31,7 +31,8 @@ namespace POS1.Controllers
                     Amount = t.TotalAmount,
                     OrderNumber = t.OrderId,
                     CashierName = t.Cashier.FullName,
-                    SaleDate = t.TransactionDate
+                    SaleDate = t.TransactionDate,
+                    OrderStatus = t.Order.OrderStatus
                 })
                 .ToList();
 

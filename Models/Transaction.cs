@@ -8,9 +8,9 @@ namespace POS1.Models
 		[Key]
 		public int TransactionId { get; set; }  // Primary key
 
-		[ForeignKey("Order")]
+		//[ForeignKey("Order")]
 		public int? OrderId { get; set; }  // Foreign key (nullable)
-		[ForeignKey("Cashier")]
+		//[ForeignKey("Cashier")]
 		public int? CashierId { get; set; }
 		public decimal? TotalAmount { get; set; }  // Final transaction amount
 		public decimal? PaidAmount { get; set; }  // Amount paid by the customer
