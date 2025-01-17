@@ -58,7 +58,7 @@
                             <td>@transaction.OrderNumber</td>
                             <td>@transaction.CashierName</td>
                             <td>@transaction.SaleDate.ToString("yyyy-MM-dd")</td>
-                            <td><a href="/receipt/@transaction.OrderNumber" class="action-btn">Receipt</a></td>
+                            <td><a asp-action="Invoice" asp-route-id="@transaction.TransactionId" class="action-btn">Receipt</a></td>
                         </tr>
                     }
                 </tbody>

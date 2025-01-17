@@ -1,0 +1,206 @@
+﻿@{
+    ViewData["Title"] = "Sales";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sales Invoice</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            padding: 0;
+        }
+
+        .container-1 {
+            text-align: center;
+        }
+
+        .container-1 h1 {
+            font-size: 24px;
+            margin: 5px 0;
+        }
+
+        .container-1 p {
+            margin: 3px 0;
+            font-size: 14px;
+        }
+
+        .container-2 {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .container-2 .row-1 {
+            text-align: center;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .container-2 .row-2 {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+            padding: 0 20px;
+        }
+
+        .row-2 .column {
+            display: flex;
+            flex-direction: column;
+            width: 48%;
+        }
+
+        .column h3 {
+            font-size: 16px;
+            margin: 0 0 10px;
+        }
+
+        .column p {
+            margin: 5px 0;
+        }
+
+        .container-3 {
+            text-align: right;
+        }
+
+        .container-3 p {
+            margin: 3px 0;
+        }
+
+        .container-4 {
+            text-align: center;
+            font-size: 14px;
+        }
+
+        .container-4 p {
+            margin: 3px 0;
+        }
+
+        hr {
+            border: none;
+            border-top: 1px solid #ccc;
+            margin: 15px 0;
+        }
+
+        .eomma-container {
+            display: flex;
+            justify-content: center;
+            min-height: 100vh;
+            min-width: 100vh;
+            gap: 30px;
+        }
+
+        .invoice-receipt-container {
+            border: 1px solid black;
+            padding: 10px 13px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-around;
+        }
+
+        #content nav {
+            display: none;
+        }
+
+        #pdf-button {
+            max-height: fit-content;
+            padding: 10px;
+            background-color: violet;
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+            position: fixed;
+            left: 80%;  
+        }
+
+            #pdf-button:hover {
+                background-color: rgb(250, 41, 250);
+            }
+
+        #transfer {
+            display: flex;
+            justify-content: space-between;
+            padding: 0 32px;
+        }
+    </style>
+</head>
+<body>
+   
+    <div class="eomma-container">
+        <div class="invoice-receipt-container">
+            <!-- Container 1: Store Information -->
+            <div class="container container-1">
+                <h1>
+                    THE <span style="font-weight: 600;background-image: linear-gradient(to right, violet, #8a2be2);-webkit-background-clip: text;color: transparent;">GIZMODE</span> STORE
+                </h1>
+                <p>Lot 3 Block 5 Don Fabian Street Commonwealth Quezon City</p>
+                <p>Email: shop@gizmode.com</p>
+                <p>Telephone #: 513-6458</p>
+            </div>
+
+            <!-- Container 2: Sales Invoice -->
+            <div class="container container-2">
+                <!-- Row 1: Sales Invoice Title -->
+                <div class="row-1">
+                    <h2>Sales Invoice</h2>
+                </div>
+
+                <!-- Row 2: Cashier, Items, Subtotals -->
+                <div class="row-2">
+                    <!-- Column 1 -->
+                    <div class="column">
+                        <h3>Customer: @Model.CustName</h3>
+                        <h3>Cashier: @Model.CashierName</h3>
+                        <p><strong>Items:</strong></p>
+                        @foreach (var item in Model.Items)
+                        {
+                            <p>@item</p>
+                        }
+                        @* <p>@Model.ItemCount Items</p> *@
+                    </div>
+
+                    <!-- Column 2 -->
+                    <div class="column" style="text-align: right;">
+                        <h3>Date: @Model.TransactionDate.ToString("yyyy-MM-dd")</h3>
+                        <h3>Time: @Model.TransactionDate.ToString("hh:mm tt")</h3>
+                        <p><strong>Subtotal:</strong></p>
+                        @foreach (var subtotal in Model.Subtotals)
+                        {
+                            <p>₱@subtotal.ToString("N2")</p>
+                        }
+                        @* <p><strong>Total: ₱@Model.TotalAmount.ToString("N2")</strong></p> *@
+                    </div>
+                </div>
+            </div>
+
+            <div id="transfer">
+                <p>@Model.ItemCount Items</p>
+                <p><strong>Total: ₱@Model.TotalAmount.ToString("N2")</strong></p>
+            </div>
+
+            <!-- Container 3: Cash, Amount Due, Change -->
+            <div class="container container-3">
+                <p>Cash: ₱@Model.Cash.ToString("N2")</p>
+                <p>Amount Due: ₱@Model.TotalAmount.ToString("N2")</p>
+                <p>Change: ₱@Model.Change.ToString("N2")</p>
+            </div>
+
+            <!-- Container 4: Notes -->
+            <div class="container container-4" style="margin: 0; padding: 0;">
+                <p>Present this receipt when requesting for return/exchange of merchandise.</p>
+                <p>Order online direct at gizmode.com.ph.</p>
+            </div>
+        </div>
+        <a id="pdf-button">Download PDF</a>
+    </div>
+
+
+
+
+</body>
+</html>

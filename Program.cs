@@ -58,9 +58,14 @@ app.UseAuthorization();
 //    name: "default",
 //    pattern: "{controller=Home}/{action=Index}/{id?}"); 
 
+// THIS IS THE ORIGINAL, BRING BACK THIS:
+//app.MapControllerRoute(
+//    name: "default",
+//    pattern: "{controller=Login}/{action=LoginPage}/{id?}");
+
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Login}/{action=LoginPage}/{id?}");
+    pattern: "{controller=Sales}/{action=Sales}");
 
 
 
