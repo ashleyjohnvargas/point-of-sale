@@ -9,6 +9,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sales Invoice</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.2/html2pdf.bundle.js"></script>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -132,11 +133,11 @@
 <body>
    
     <div class="eomma-container">
-        <div class="invoice-receipt-container">
+        <div class="invoice-receipt-container" id="invoice-container">
             <!-- Container 1: Store Information -->
             <div class="container container-1">
                 <h1>
-                    THE <span style="font-weight: 600;background-image: linear-gradient(to right, violet, #8a2be2);-webkit-background-clip: text;color: transparent;">GIZMODE</span> STORE
+                    THE GIZMODE STORE
                 </h1>
                 <p>Lot 3 Block 5 Don Fabian Street Commonwealth Quezon City</p>
                 <p>Email: shop@gizmode.com</p>
@@ -179,7 +180,7 @@
             </div>
 
             <div id="transfer">
-                <p>@Model.ItemCount Items</p>
+                <p>@Model.ItemCount Item(s)</p>
                 <p><strong>Total: ₱@Model.TotalAmount.ToString("N2")</strong></p>
             </div>
 
@@ -200,6 +201,17 @@
     </div>
 
 
+    <script>
+        // When the "Download PDF" button is clicked, generate PDF
+        document.getElementById("pdf-button").addEventListener("click", function () {
+            var element = document.getElementById("invoice-container"); // Get the invoice content
+
+            // Convert HTML content to PDF using html2pdf.js
+            html2pdf()
+                .from(element)  // Use the invoice container
+                .save("invoice.pdf");  // Automatically download the PDF as "invoice.pdf"
+        });
+    </script>
 
 
 </body>
