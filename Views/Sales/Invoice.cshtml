@@ -202,16 +202,27 @@
 
 
     <script>
-        // When the "Download PDF" button is clicked, generate PDF
         document.getElementById("pdf-button").addEventListener("click", function () {
-            var element = document.getElementById("invoice-container"); // Get the invoice content
+            var element = document.getElementById("invoice-container");
 
-            // Convert HTML content to PDF using html2pdf.js
+            // Get the TransactionId from the model
+            var transactionId = '@Model.TransactionId';
+
+            // Get current date and time
+            var currentDate = new Date();
+            var formattedDate = currentDate.toISOString().split('T')[0];  // YYYY-MM-DD
+            var formattedTime = currentDate.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }).replace(":", "-");  // HH-mm
+
+            // Generate the filename in the desired format
+            var fileName = `Receipt-${transactionId}-Gizmode-${formattedDate}-${formattedTime}.pdf`;
+
+            // Use html2pdf.js to generate and download the PDF with the custom filename
             html2pdf()
-                .from(element)  // Use the invoice container
-                .save("invoice.pdf");  // Automatically download the PDF as "invoice.pdf"
+                .from(element)
+                .save(fileName);
         });
     </script>
+
 
 
 </body>
