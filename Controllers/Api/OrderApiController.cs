@@ -93,6 +93,24 @@ namespace POS1.Controllers.Api
                     }
 
                     await _dbContext.SaveChangesAsync();
+
+                    // Prepare stock updates
+                    var stockUpdates = orderItems.Select(item => new ProductStockUpdateModel
+                    {
+                        ProductId = item.ProductId,
+                        Quantity = item.Quantity
+                    }).ToList();
+
+                    // Call Inventory Service to update stock
+                    try
+                    {
+                        var inventoryService = new InventoryService(new HttpClient());
+                        await inventoryService.UpdateProductStockAsync(stockUpdates);
+                    }
+                    catch (Exception ex)
+                    {
+                        return StatusCode(500, $"Failed to update product stock: {ex.Message}");
+                    }
                 }
                 catch (Exception ex)
                 {

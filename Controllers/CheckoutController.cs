@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using POS1.Models;
+using POS1.Services;
 using System.Linq;
 
 namespace POS1.Controllers
@@ -112,8 +113,9 @@ namespace POS1.Controllers
 			_context.Transactions.Add(transaction);
 			_context.SaveChanges(); // Save to get the generated TransactionId
 
-			// Create TransactionItems for the order's OrderItems
-			foreach (var orderItem in order.OrderItems)
+            // Create TransactionItems for the order's OrderItems
+            var stockUpdates = new List<ProductStockUpdateModel>();
+            foreach (var orderItem in order.OrderItems)
 			{
 				var transactionItem = new TransactionItem
 				{
@@ -123,7 +125,14 @@ namespace POS1.Controllers
 					Subtotal = orderItem.Subtotal  // Subtotal from OrderItems
 				};
 				_context.TransactionItems.Add(transactionItem);
-			}
+
+                // Prepare stock update data
+                stockUpdates.Add(new ProductStockUpdateModel
+                {
+                    ProductId = orderItem.ProductId,
+                    Quantity = orderItem.Quantity
+                });
+            }
 
 			// Create a Payment record for the transaction
 			var payment = new Payment
@@ -138,7 +147,18 @@ namespace POS1.Controllers
 			// Save all changes to the database
 			_context.SaveChanges();
 
-			TempData["ShowPopup"] = true; // Indicate that the popup should be shown
+            // Call Inventory Service to update stock
+            try
+            {
+                var inventoryService = new InventoryService(new HttpClient());
+                inventoryService.UpdateProductStockAsync(stockUpdates).Wait();
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Failed to update product stock: {ex.Message}");
+            }
+
+            TempData["ShowPopup"] = true; // Indicate that the popup should be shown
 			TempData["PopupMessage"] = "Order has been successfully confirmed!";
 
 			// Redirect to a success or confirmation page
