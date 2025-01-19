@@ -50,7 +50,8 @@
                             <tr>
                                 <td>@order.CustName</td>
                                 <td>@order.Date?.ToString("MM-dd-yyyy")</td>
-                                <td>₱@order.TotalAmount</td>
+
+                                <td>₱@String.Format("{0:n}", order.TotalAmount)</td>
                                 <td>@order.PayMethod</td>
                                 <td>@order.PaymentStatus</td>
                                 <td>@order.OrdStatus</td>
