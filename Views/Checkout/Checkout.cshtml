@@ -69,7 +69,7 @@
 			<form asp-action="CheckoutOrder" method="post" style="display: flex;flex-direction: column;align-items: stretch;">
 				<input type="hidden" name="OrderId" value="@Model.OrderId" />
 				<label for="payment-amount">Payment Amount:</label>
-				<input type="number" id="PaidAmount" name="PaidAmount" step="0.01" min="0">
+				<input type="text" id="PaidAmount" name="PaidAmount">
 				<label for="change-amount">Change:</label>
 				<input type="number" id="Change" name="Change" readonly>
 				<button type="submit" class="btn-checkout" style="margin-left:0;">Checkout</button>
@@ -90,18 +90,47 @@
 		updateCurrentDate(); // Initial call
 		setInterval(updateCurrentDate, 1000); // Update every second
 
+		// Format the input as the user types (add commas dynamically)
+		document.getElementById('PaidAmount').addEventListener('input', function (e) {
+			let value = e.target.value;
+
+			// Remove invalid characters (anything except digits and a single dot)
+			value = value.replace(/[^0-9.]/g, '');
+
+			// Check if the value contains a decimal point
+			const dotIndex = value.indexOf('.');
+			if (dotIndex !== -1) {
+				// Allow only one decimal point and keep the decimal part
+				const beforeDot = value.substring(0, dotIndex);
+				const afterDot = value.substring(dotIndex + 1).replace(/\./g, ''); // Remove extra dots
+				value = beforeDot + '.' + afterDot;
+			}
+
+			// Split into integer and decimal parts
+			const parts = value.split('.');
+			let integerPart = parts[0];
+			let decimalPart = parts[1] !== undefined ? '.' + parts[1].slice(0, 2) : ''; // Limit decimal places to 2
+
+			// Add commas to the integer part
+			integerPart = integerPart.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+
+			// Combine integer and decimal parts and update the input field
+			e.target.value = integerPart + decimalPart;
+		});
+
 
 		// Wait for the page to load
-		 document.addEventListener('DOMContentLoaded', function () {
+		document.addEventListener('DOMContentLoaded', function () {
 				const paidAmountInput = document.getElementById('PaidAmount');
 				const changeInput = document.getElementById('Change');
 				const totalAmount = parseFloat('@Model.TotalAmount'); // TotalAmount from the view
 
 			// Function to update the change when paid amount is entered
 			function updateChange() {
-				const paidAmount = parseFloat(paidAmountInput.value) || 0;
+				// Convert PaidAmount input to a decimal (float) and handle invalid inputs
+				const paidAmount = parseFloat(paidAmountInput.value.replace(/[^0-9.]/g, '')) || 0; // Remove non-numeric characters except '.'
 				const change = paidAmount - totalAmount;
-				changeInput.value = change >= 0 ? change.toFixed(2) : 0;
+				changeInput.value = change >= 0 ? change.toFixed(2) : '0.00';
 			}
 
 			// Add event listener to the PaidAmount input to update change dynamically
@@ -109,11 +138,14 @@
 		});
 
 
-		// //Js for change calcu
-		// 	function calculateChange() {
-		// 	const totalAmount = parseFloat(document.getElementById('total-amount').value) || 0;
-		// 	const paymentAmount = parseFloat(document.getElementById('payment-amount').value) || 0;
-		// 	const change = totalAmount - paymentAmount;
-		// 	document.getElementById('change-amount').value = change >= 0 ? change.toFixed(2) : '0.00';
-		// }
+		
+
+
+		// Sanitize input before form submission (remove commas)
+		document.querySelector('form').addEventListener('submit', function () {
+			let priceInput = document.getElementById('Price');
+			priceInput.value = priceInput.value.replace(/,/g, ''); // Remove commas before submitting
+		});
+
+
 	</script>
