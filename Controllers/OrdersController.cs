@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using POS1.Models;
+using POS1.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,10 +12,11 @@ namespace YourApp.Controllers
     public class OrdersController : Controller
     {
         private readonly ApplicationDbContext _context;
-
-        public OrdersController(ApplicationDbContext context)
+        private readonly EcommerceService _ecommerceService;
+        public OrdersController(ApplicationDbContext context, EcommerceService ecommerceService)
         {
             _context = context;
+            _ecommerceService = ecommerceService;
         }
 
         //    public IActionResult Orders()
@@ -117,10 +119,24 @@ namespace YourApp.Controllers
             // Update the payment status
             transaction.PaymentStatus = "Refunded";
 
+            var invoice = _context.Invoices.FirstOrDefault(t => t.OrderId == request.OrderNumber);
+            invoice.PaymentStatus = "Refunded";
+
             // Save changes to the database
             _context.SaveChanges();
 
-            
+            // Prepare the model for the service request
+            var refundModel = new OrderRefundModel
+            {
+                OrderId = order.OrderId,
+                RefundDate = order.CreatedAt
+            };
+
+            // Call the service to update the Ecommerce system (this is just an example)
+            //var ecommerceService = new EcommerceService(); // Assume this is a service to call the API
+            _ecommerceService.UpdateOrderInEcommerce(refundModel);
+
+
             TempData["ShowPopup"] = true;
             TempData["PopupMessage"] = "Order refunded successfully.";
 

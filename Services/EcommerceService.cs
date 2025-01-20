@@ -5,15 +5,18 @@ using System.Net.Http.Json;
 using System.Threading.Tasks;
 using POS1.Models;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 
 namespace POS1.Services
 {
     public class EcommerceService
     {
         private readonly HttpClient _httpClient;
+        
         public EcommerceService(HttpClient httpClient)
         {
             _httpClient = httpClient;
+            
         }
 
         // Get order items from the Ecommerce of the order with the order status of "Order Confirmed".
@@ -40,6 +43,28 @@ namespace POS1.Services
                 // Log the error (optional) and rethrow or handle as needed
                 Console.WriteLine($"An error occurred while fetching order items: {ex.Message}");
                 throw;
+            }
+        }
+
+
+
+        public async Task UpdateOrderInEcommerce(OrderRefundModel model)
+        {
+
+            //var content = new StringContent(JsonConvert.SerializeObject(model), Encoding.UTF8, "application/json");
+
+            // Sending the HTTP POST request to update the order
+            var response = await _httpClient.PostAsJsonAsync("api/OrdersApi/UpdateOrder", model);
+
+            if (response.IsSuccessStatusCode)
+            {
+                // Successfully updated the order in Ecommerce
+                // You can handle logging or additional logic here if needed
+            }
+            else
+            {
+                // Log or handle the failure case
+                throw new Exception("Failed to update the order in Ecommerce.");
             }
         }
 
