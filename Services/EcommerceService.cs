@@ -69,5 +69,33 @@ namespace POS1.Services
         }
 
 
+        public async Task CancelOrderInEcommerce(int orderId)
+        {
+            try
+            {
+                // Sending a POST request to the API to cancel the order
+                var response = await _httpClient.PostAsJsonAsync($"api/OrdersApi/CancelOrder/{orderId}", new { OrderId = orderId });
+
+                if (response.IsSuccessStatusCode)
+                {
+                    // Successfully cancelled the order in Ecommerce
+                    // You can handle logging or additional logic here if needed
+                }
+                else
+                {
+                    // Log or handle the failure case
+                    throw new Exception("Failed to cancel the order in Ecommerce.");
+                }
+            }
+            catch (HttpRequestException ex)
+            {
+                // Log the error (optional) and rethrow or handle as needed
+                Console.WriteLine($"An error occurred while cancelling the order: {ex.Message}");
+                throw;
+            }
+        }
+
+
+
     }
 }
