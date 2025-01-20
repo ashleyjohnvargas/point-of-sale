@@ -21,5 +21,6 @@ namespace POS1.Models
         public virtual ICollection<Invoice>? Invoices { get; set; } // Add this property
 		public virtual ICollection<OrderItem>? OrderItems { get; set; } // Add this property
 
+
 	}
 }
