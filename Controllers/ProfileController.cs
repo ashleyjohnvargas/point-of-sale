@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using POS1.Models;
 
 public class ProfileController : Controller
@@ -12,8 +13,15 @@ public class ProfileController : Controller
     }
 
     // Display the profile page
+    //[Authorize]
     public IActionResult ProfilePage()
     {
+
+        if (string.IsNullOrEmpty(HttpContext.Session.GetString("UserId")))
+        {
+            return RedirectToAction("LoginPage", "Login");
+        }
+
         // Retrieve the logged-in user's ID from session (as string) and convert to int
         var userIdString = HttpContext.Session.GetString("UserId");
         if (string.IsNullOrEmpty(userIdString) || !int.TryParse(userIdString, out int userId))
@@ -45,9 +53,13 @@ public class ProfileController : Controller
         }
         return View(profile);
     }
-
+    //[Authorize]
     public IActionResult EditProfile()
     {
+        if (string.IsNullOrEmpty(HttpContext.Session.GetString("UserId")))
+        {
+            return RedirectToAction("LoginPage", "Login");
+        }
         // Retrieve the logged-in user's ID from session (as string) and convert to int
         var userIdString = HttpContext.Session.GetString("UserId");
         if (string.IsNullOrEmpty(userIdString) || !int.TryParse(userIdString, out int userId))
@@ -101,8 +113,13 @@ public class ProfileController : Controller
     }
 
     // Display the ChangePasswordPage
+   // [Authorize]
     public IActionResult ChangePasswordPage()
     {
+        if (string.IsNullOrEmpty(HttpContext.Session.GetString("UserId")))
+        {
+            return RedirectToAction("LoginPage", "Login");
+        }
         return View();
     }
 
@@ -125,8 +142,8 @@ public class ProfileController : Controller
             return RedirectToAction("ChangePasswordPage");
         }
 
-        // Check if the current password matches the user's password (this is without hashing)
-        if (user.Password != currentPassword)
+        // Check if the current password matches the hashed password (using BCrypt)
+        if (!BCrypt.Net.BCrypt.Verify(currentPassword, user.Password))  // Compare hashed password
         {
             TempData["ErrorMessage"] = "Current password is incorrect.";
             return RedirectToAction("ChangePasswordPage");
@@ -139,8 +156,9 @@ public class ProfileController : Controller
             return RedirectToAction("ChangePasswordPage");
         }
 
-        // Update the password without hashing it in the Users table
-        user.Password = newPassword;
+        // Hash the new password before saving it to the database
+        user.Password = BCrypt.Net.BCrypt.HashPassword(newPassword);  // Hash the new password
+
 
         _context.SaveChanges();
 

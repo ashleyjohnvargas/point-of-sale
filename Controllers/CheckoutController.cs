@@ -1,4 +1,5 @@
 ﻿// Controllers/CheckoutController.cs
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using POS1.Models;
@@ -15,60 +16,75 @@ namespace POS1.Controllers
 		{
 			_context = context;
 		}
-
+       // [Authorize]
         public IActionResult BlankCheckout()
         {
+            if (string.IsNullOrEmpty(HttpContext.Session.GetString("UserId")))
+            {
+                return RedirectToAction("LoginPage", "Login");
+            }
+
             return View();
         }
 
+        //[Authorize]
+        [HttpGet]
+        public async Task<IActionResult> Checkout(int id) // id is the OrderId
+        {
+            if (string.IsNullOrEmpty(HttpContext.Session.GetString("UserId")))
+            {
+                return RedirectToAction("LoginPage", "Login");
+            }
 
-		[HttpGet]
-		public async Task<IActionResult> Checkout(int id) // id is the OrderId
-		{
-			// Fetch the order, customer, and items based on the OrderId
-			var order = await _context.Orders
-				.Include(o => o.Customer) // Include related customer data
-				.Include(o => o.OrderItems) // Include related order items
-				.ThenInclude(oi => oi.Product) // Include product details in order items
-				.FirstOrDefaultAsync(o => o.OrderId == id);
+            // Fetch the order, customer, and items based on the OrderId
+            var order = await _context.Orders
+                .AsNoTracking() // Optimize query for read-only operation
+                .Include(o => o.Customer) // Include related customer data
+                .Include(o => o.OrderItems) // Include related order items
+                .ThenInclude(oi => oi.Product) // Include product details in order items
+                .FirstOrDefaultAsync(o => o.OrderId == id);
 
-			if (order == null)
-			{
-                //return RedirectToAction("BlankCheckout"); // Return a specific view for this case
+            if (order == null)
+            {
                 return NotFound(); // Return 404 if order not found
             }
 
-			// Prepare the CheckoutViewModel
-			var checkoutViewModel = new CheckoutViewModel
-			{
-				CustomerName = _context.Customers
-                        .Where(c => c.EcomId == order.CustomerId) // Match EcomId with CustomerId
-                        .Select(c => c.CustomerName)
-                        .FirstOrDefault() ?? "Guest",  // Safeguard for null values
+            // Logging for debugging
+            Console.WriteLine($"Order ID: {order.OrderId}, Total Items: {order.OrderItems?.Count ?? 0}");
+
+            // Prepare the CheckoutViewModel
+            var checkoutViewModel = new CheckoutViewModel
+            {
+                CustomerName = order.Customer?.CustomerName ?? "Guest", // Get from included Customer object
                 OrderId = order.OrderId,
-				TotalAmount = order.TotalPrice,
-				PaymentMethod = order.PaymentMethod,
-				OrderItems = order.OrderItems.Select(oi => new CheckoutItemViewModel
-				{
-					ProductName = oi.Product.Name,
-					Price = oi.Product.Price,
-					Quantity = oi.Quantity,
-					Subtotal = oi.Subtotal
-				}).ToList()
-			};
+                TotalAmount = order.TotalPrice,
+                PaymentMethod = order.PaymentMethod,
+                OrderItems = (order.OrderItems ?? new List<OrderItem>()) // Ensure OrderItems is not null
+                    .Select(oi => new CheckoutItemViewModel
+                    {
+                        ProductName = oi.Product?.Name ?? "Unknown Product",
+                        Price = oi.Product?.Price ?? 0,
+                        Quantity = oi.Quantity,
+                        Subtotal = oi.Subtotal
+                    }).ToList()
+            };
+
+            // Pass the model to the view
+            return View(checkoutViewModel);
+        }
 
 
-			// Pass the model to the view
-			return View(checkoutViewModel);
-		}
-
-
-
-		[HttpPost]
+       // [Authorize]
+        [HttpPost]
 		public IActionResult CheckoutOrder(CheckoutOrderModel model)
 		{
-			// Fetch the order from the Orders table
-			var order = _context.Orders
+            if (string.IsNullOrEmpty(HttpContext.Session.GetString("UserId")))
+            {
+                return RedirectToAction("LoginPage", "Login");
+            }
+
+            // Fetch the order from the Orders table
+            var order = _context.Orders
 				.Include(o => o.OrderItems)  // Include OrderItems for product details
 				.FirstOrDefault(o => o.OrderId == model.OrderId);
 
@@ -168,9 +184,14 @@ namespace POS1.Controllers
 
 
 
-
-		public IActionResult Index()
+       // [Authorize]
+        public IActionResult Index()
         {
+            if (string.IsNullOrEmpty(HttpContext.Session.GetString("UserId")))
+            {
+                return RedirectToAction("LoginPage", "Login");
+            }
+
             // Example: This would ideally come from the user's session or database
             var cartItems = new List<CartItem>
             {
@@ -200,7 +221,7 @@ namespace POS1.Controllers
 
         //    return View("Index", model);
         //}
-
+        [Authorize]
         public IActionResult Confirmation()
         {
             return View();

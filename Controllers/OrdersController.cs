@@ -1,4 +1,5 @@
 ﻿// Controllers/OrdersController.cs
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using POS1.Models;
@@ -45,9 +46,13 @@ namespace YourApp.Controllers
 
         //        return View(orders);
         //    }
-
+        //[Authorize]
         public IActionResult Orders()
         {
+            if (string.IsNullOrEmpty(HttpContext.Session.GetString("UserId")))
+            {
+                return RedirectToAction("LoginPage", "Login");
+            }
             // Get the current date
             var currentDate = DateTime.Now.Date;
 
@@ -82,7 +87,7 @@ namespace YourApp.Controllers
         }
 
 
-
+       // [Authorize]
         [HttpPost]
         public IActionResult ProcessRefund(RefundRequest request)
         {
@@ -93,7 +98,10 @@ namespace YourApp.Controllers
             //    TempData["ShowPopup"] = true;
             //    return RedirectToAction("Index");
             //}
-
+            if (string.IsNullOrEmpty(HttpContext.Session.GetString("UserId")))
+            {
+                return RedirectToAction("LoginPage", "Login");
+            }
             // Find the order using the OrderNumber
             var order = _context.Orders.FirstOrDefault(o => o.OrderId == request.OrderNumber);
             if (order == null)
@@ -144,12 +152,16 @@ namespace YourApp.Controllers
         }
 
 
-
+        //[Authorize]
         [HttpPost]
 		public async Task<IActionResult> DeleteOrder(int id)
 		{
-			// Fetch the order by ID
-			var order = _context.Orders.FirstOrDefault(o => o.OrderId == id);
+            if (string.IsNullOrEmpty(HttpContext.Session.GetString("UserId")))
+            {
+                return RedirectToAction("LoginPage", "Login");
+            }
+            // Fetch the order by ID
+            var order = _context.Orders.FirstOrDefault(o => o.OrderId == id);
 
 			if (order == null)
 			{
@@ -174,18 +186,28 @@ namespace YourApp.Controllers
 		}
 
 
-
-		// Display a list of orders
-		public IActionResult Index()
+       // [Authorize]
+        // Display a list of orders
+        public IActionResult Index()
         {
+            if (string.IsNullOrEmpty(HttpContext.Session.GetString("UserId")))
+            {
+                return RedirectToAction("LoginPage", "Login");
+            }
+
             return View();
         }
-       
-          
 
+
+       // [Authorize]
         // View an individual invoice by InvoiceId (In a real application, you would fetch the invoice from a database)
         public IActionResult ViewInvoice(int invoiceId)
         {
+            if (string.IsNullOrEmpty(HttpContext.Session.GetString("UserId")))
+            {
+                return RedirectToAction("LoginPage", "Login");
+            }
+
             // Here, you'd query the database to get the invoice details
             var invoiceDetails = $"Invoice details for Invoice ID: {invoiceId}";
             return Content(invoiceDetails);

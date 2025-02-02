@@ -22,6 +22,8 @@ namespace POS1.Models
         [StringLength(255)]
         public string? Password { get; set; } // Store hashed passwords
         public bool IsActive { get; set; }
+        public DateTime? LastLogin { get; set; }
+
     }
 }
 

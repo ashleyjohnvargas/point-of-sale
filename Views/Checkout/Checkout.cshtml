@@ -19,12 +19,6 @@
 		<div class="order">
 			<div class="head">
 				<h3>Shopping Cart</h3>		
-				@* <form action="#">
-					<div class="form-input">
-						<input type="search" placeholder="Search..."> <!--Search for product(name, id) and add to cart-->
-						<button type="submit" class="search-btn"><i class='bx bx-search'></i></button>
-					</div>
-				</form>  *@ 
 				<i class='bx bx-filter'></i> <!--Filter cart by name or price-->
 			</div>
 			<table>
@@ -34,10 +28,14 @@
 						<th>Price</th>
 						<th>Quantity</th>
 						<th>Subtotal</th>
-						<th>Remove</th>
 					</tr>
 				</thead>
 				<tbody>
+					@if (Model.OrderItems == null || !Model.OrderItems.Any())
+					{
+						<tr><td colspan="4">No items in the cart.</td></tr>
+					}
+
 					@foreach (var item in Model.OrderItems)
 					{
 						<tr>
@@ -45,13 +43,6 @@
 							<td>@item.Price.ToString("C")</td>
 							<td>@item.Quantity</td>
 							<td>@item.Subtotal.ToString("C")</td>
-							<td>
-								<button onclick="removeItem('@item.ProductName')">
-									<a href="#" class="btn-delete">
-										<i class='bx bxs-trash'></i> <!-- Delete -->
-									</a>
-								</button>
-							</td>
 						</tr>
 					}
 				</tbody>

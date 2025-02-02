@@ -4,6 +4,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using POS1.Models;
 using System.Linq;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authorization;
 
 namespace POS1.Controllers
 {
@@ -18,9 +20,14 @@ namespace POS1.Controllers
             _context = context;
         }
 
-
+       // [Authorize]
         public IActionResult Index()
         {
+            if (string.IsNullOrEmpty(HttpContext.Session.GetString("UserId")))
+            {
+                return RedirectToAction("LoginPage", "Login");
+            }
+
             var today = DateTime.Today;
             var startOfWeek = today.AddDays(-(int)today.DayOfWeek);
             var startOfMonth = new DateTime(today.Year, today.Month, 1);
@@ -107,7 +114,7 @@ namespace POS1.Controllers
 
 
 
-
+       // [Authorize]
         [HttpGet]
         public IActionResult GetDashboardData()
         {
@@ -201,13 +208,30 @@ namespace POS1.Controllers
 
 
 
-        [HttpGet("logout")]
+        //[HttpGet("logout")]
+        //public IActionResult Logout()
+        //{
+        //    // Clear session or authentication cookies
+        //    HttpContext.SignOutAsync();
+        //    return RedirectToAction("LoginPage", "Login");
+        //}
+
+        [HttpGet]
         public IActionResult Logout()
         {
-            // Clear session or authentication cookies
-            HttpContext.SignOutAsync();
+            //await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            HttpContext.Session.Clear(); // Remove all session data
+            HttpContext.Session.Remove("UserId");
+            HttpContext.Session.Remove("UserFullName");
+            HttpContext.Session.Remove("UserEmail");
+            // Prevent back navigation from showing cached content
+            Response.Headers["Cache-Control"] = "no-cache, no-store, must-revalidate";
+            Response.Headers["Pragma"] = "no-cache";
+            Response.Headers["Expires"] = "-1";
+
             return RedirectToAction("LoginPage", "Login");
         }
+
 
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

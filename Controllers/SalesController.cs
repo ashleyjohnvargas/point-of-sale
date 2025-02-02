@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using POS1.Models;
 
@@ -12,9 +13,14 @@ namespace POS1.Controllers
         {
             _context = context;
         }
-
+       // [Authorize]
         public IActionResult Sales()
         {
+            if (string.IsNullOrEmpty(HttpContext.Session.GetString("UserId")))
+            {
+                return RedirectToAction("LoginPage", "Login");
+            }
+
             // Fetch all transactions, including customer and cashier details
             var sales = _context.Transactions
                 .Include(t => t.Order) // Include Order for OrderId
@@ -39,8 +45,14 @@ namespace POS1.Controllers
             return View(sales);
         }
 
+      //  [Authorize]
         public IActionResult Invoice(int id)
         {
+            if (string.IsNullOrEmpty(HttpContext.Session.GetString("UserId")))
+            {
+                return RedirectToAction("LoginPage", "Login");
+            }
+
             // Fetch the transaction based on the TransactionId
             var transaction = _context.Transactions
                 .Include(t => t.TransactionItems!) // Assert non-nullability

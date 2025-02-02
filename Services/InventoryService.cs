@@ -13,7 +13,7 @@ namespace POS1.Services
 
         public async Task UpdateProductStockAsync(List<ProductStockUpdateModel> stockUpdates)
         {
-            var response = await _httpClient.PostAsJsonAsync("http://localhost:5000/api/ProductsApi/UpdateStock", stockUpdates);
+            var response = await _httpClient.PostAsJsonAsync("https://gizmodeinventorysystem2.azurewebsites.net/api/ProductsApi/UpdateStock", stockUpdates);
 
             if (!response.IsSuccessStatusCode)
             {
