@@ -5,7 +5,6 @@ using Microsoft.AspNetCore.Authentication;
 using System.Security.Claims;
 using BCrypt;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.Authentication;
 
 namespace POS1.Controllers
 {
@@ -23,7 +22,7 @@ namespace POS1.Controllers
         // GET: Login
         public IActionResult LoginPage()
         {
-            return View();
+            return View("LoginPage");
         }
 
         // POST: Login
@@ -45,9 +44,7 @@ namespace POS1.Controllers
                 ViewBag.ErrorMessage = "Your account is inactive. Please contact support.";
                 return View("LoginPage");
             }
-            // Update LastLogin timestamp
-            user.LastLogin = DateTime.UtcNow;
-            _context.SaveChanges();
+           
 
             // Authentication using Cookies (Recommended over Session)
         //    var claims = new List<Claim>
@@ -72,6 +69,11 @@ namespace POS1.Controllers
                 HttpContext.Session.SetString("UserId", user.Id.ToString());
                 HttpContext.Session.SetString("UserFullName", user.FullName);
                 HttpContext.Session.SetString("UserEmail", user.Email);
+
+                // Update LastLogin timestamp
+                user.LastLogin = DateTime.UtcNow;
+                _context.SaveChanges();
+
                 return RedirectToAction("Index", "Home");
             }
 

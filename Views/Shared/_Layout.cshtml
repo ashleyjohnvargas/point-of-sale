@@ -5,7 +5,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta http-equiv="Cache-Control" content="no-store, no-cache, must-revalidate, max-age=0" />
 	<meta http-equiv="Pragma" content="no-cache" />
-	<meta http-equiv="Expires" content="-1" />
+	<meta http-equiv="Expires" content="0" />
 
 	<!-- Fonts -->
 	<link rel="preconnect" href="https://fonts.googleapis.com">
@@ -39,7 +39,7 @@
 		}
 
 			a:hover {
-				/* /text-decoration: underline; /* Adds an underline only on hover */ */ color: #007bff; /* Changes color on hover */
+				/* /text-decoration: underline; /* Adds an underline only on hover */ color: #007bff; /* Changes color on hover */
 			}
 
 		.side-menu a {
@@ -308,12 +308,12 @@
 		}
 	</script>
 
-	@* <script> *@
-	@* 	if (window.performance && window.performance.navigation.type === 2) { *@
-	@* 		// If the user navigated using the back button, force a reload *@
-	@* 		window.location.reload(); *@
-	@* 	} *@
-	@* </script> *@
+	<script>
+		if (window.performance && window.performance.navigation.type === 2) {
+			// If the user navigated using the back button, force a reload
+			window.location.reload();
+		}
+	</script>
 
 </body>
 </html>

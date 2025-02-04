@@ -6,27 +6,33 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 
 var builder = WebApplication.CreateBuilder(args);
 
-//// Ecommerce service
+// Ecommerce service
+//builder.Services.AddHttpClient<EcommerceService>(client =>
+//{
+//    client.BaseAddress = new Uri("https://gizmodeecommerce3.azurewebsites.net/"); // Replace with Ecommerce System URL
+//});
+
+// Ecommerce service
 //builder.Services.AddHttpClient<EcommerceService>(client =>
 //{
 //    client.BaseAddress = new Uri("https://gizmodeecommerce.azurewebsites.net/"); // Replace with Ecommerce System URL
 //});
 
-
-//// Inventory service
+// Inventory service
 //builder.Services.AddHttpClient<InventoryService>(client =>
 //{
 //    client.BaseAddress = new Uri("https://gizmodeinventorysystem2.azurewebsites.net/"); // Replace with Ecommerce System URL
 //});
 
-// Ecommerce service Local
+
+//// Ecommerce service Local
 builder.Services.AddHttpClient<EcommerceService>(client =>
 {
     client.BaseAddress = new Uri("https://localhost:44385/"); // Replace with Ecommerce System URL
 });
 
 
-// Inventory service Local
+//// Inventory service Local
 builder.Services.AddHttpClient<InventoryService>(client =>
 {
     client.BaseAddress = new Uri("https://localhost:44341/"); // Replace with Ecommerce System URL
@@ -38,7 +44,13 @@ builder.Services.AddHttpClient<InventoryService>(client =>
 builder.Services.AddLocalization();
 builder.Services.AddControllersWithViews();
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"),
+    sqlOptions => sqlOptions.EnableRetryOnFailure(
+                maxRetryCount: 2,                // Maximum number of retries
+                maxRetryDelay: TimeSpan.FromSeconds(5),  // Time to wait between retries
+                errorNumbersToAdd: null          // Optional: specify specific SQL error numbers to retry on
+                )
+            ));
 
 builder.Services.AddControllers();
 
@@ -46,7 +58,7 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowEcommerceSystem", policy =>
     {
-        policy.WithOrigins("https://localhost:44385", "https://gizmodeecommerce.azurewebsites.net/") // Replace with your actual front-end URLs
+        policy.AllowAnyOrigin()//WithOrigins("https://localhost:44385", "https://gizmodeecommerce.azurewebsites.net/", "https://gizmodeecommerce3.azurewebsites.net/") // Replace with your actual front-end URLs
               .AllowAnyMethod()
               .AllowAnyHeader();
     });
@@ -115,7 +127,7 @@ app.MapControllerRoute(
 
 //app.MapControllerRoute(
 //    name: "default",
-//    pattern: "{controller=Sales}/{action=Sales}");
+//    pattern: "{controller=Users}/{action=Users}");
 
 
 

@@ -54,7 +54,7 @@ namespace POS1.Services
             //var content = new StringContent(JsonConvert.SerializeObject(model), Encoding.UTF8, "application/json");
 
             // Sending the HTTP POST request to update the order
-            var response = await _httpClient.PostAsJsonAsync("api/OrdersApi/UpdateOrder", model);
+            var response = await _httpClient.PostAsJsonAsync($"api/OrdersApi/UpdateOrder", model);
 
             if (response.IsSuccessStatusCode)
             {

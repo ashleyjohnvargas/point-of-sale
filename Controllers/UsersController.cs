@@ -164,7 +164,7 @@ namespace POS1.Controllers
             }
 
             // Disable the foreign key constraint temporarily
-            _context.Database.ExecuteSqlRaw("ALTER TABLE UserProfiles NOCHECK CONSTRAINT FK_UserProfiles_Users");
+           // _context.Database.ExecuteSqlRaw("ALTER TABLE UserProfiles NOCHECK CONSTRAINT FK_UserProfiles_Users");
 
             try
             {
@@ -195,11 +195,11 @@ namespace POS1.Controllers
             {
                 TempData["ErrorMessage"] = $"Error occurred: {ex.Message}";
             }
-            finally
-            {
-                // Re-enable the foreign key constraint and validate data integrity
-                _context.Database.ExecuteSqlRaw("ALTER TABLE UserProfiles WITH CHECK CHECK CONSTRAINT FK_UserProfiles_Users");
-            }
+            //finally
+            //{
+            //    // Re-enable the foreign key constraint and validate data integrity
+            //    _context.Database.ExecuteSqlRaw("ALTER TABLE UserProfiles WITH CHECK CHECK CONSTRAINT FK_UserProfiles_Users");
+            //}
 
             return RedirectToAction("Users");
         }

@@ -18,6 +18,7 @@ namespace YourApp.Controllers
         {
             _context = context;
             _ecommerceService = ecommerceService;
+            _ecommerceService = ecommerceService ?? throw new ArgumentNullException(nameof(ecommerceService));
         }
 
         //    public IActionResult Orders()
@@ -89,26 +90,28 @@ namespace YourApp.Controllers
 
        // [Authorize]
         [HttpPost]
-        public IActionResult ProcessRefund(RefundRequest request)
+        public async Task<IActionResult> ProcessRefund(RefundRequest request)
         {
-            //// Validate input
-            //if (string.IsNullOrEmpty(request.OrderNumber) || string.IsNullOrEmpty(request.TransactionId))
-            //{
-            //    TempData["PopupMessage"] = "Invalid refund request.";
-            //    TempData["ShowPopup"] = true;
-            //    return RedirectToAction("Index");
-            //}
+
             if (string.IsNullOrEmpty(HttpContext.Session.GetString("UserId")))
             {
                 return RedirectToAction("LoginPage", "Login");
             }
+
+            if (request == null)
+            {
+                TempData["PopupMessage"] = "Invalid refund request.";
+                TempData["ShowPopup"] = true;
+                return RedirectToAction("Sales","Sales");
+            }
+
             // Find the order using the OrderNumber
             var order = _context.Orders.FirstOrDefault(o => o.OrderId == request.OrderNumber);
             if (order == null)
             {
                 TempData["PopupMessage"] = "Order not found.";
                 TempData["ShowPopup"] = true;
-                return RedirectToAction("Index");
+                return RedirectToAction("Sales", "Sales");
             }
 
             // Update the order status and created date
@@ -121,14 +124,24 @@ namespace YourApp.Controllers
             {
                 TempData["PopupMessage"] = "Transaction not found.";
                 TempData["ShowPopup"] = true;
-                return RedirectToAction("Index");
+                return RedirectToAction("Sales", "Sales");
             }
 
             // Update the payment status
             transaction.PaymentStatus = "Refunded";
 
             var invoice = _context.Invoices.FirstOrDefault(t => t.OrderId == request.OrderNumber);
-            invoice.PaymentStatus = "Refunded";
+            if (invoice == null)
+            {
+                TempData["PopupMessage"] = "Invoice not found.";
+                TempData["ShowPopup"] = true;
+                return RedirectToAction("Sales", "Sales");
+            }
+
+            if (invoice != null)
+            {
+                invoice.PaymentStatus = "Refunded";
+            }
 
             // Save changes to the database
             _context.SaveChanges();
@@ -142,7 +155,7 @@ namespace YourApp.Controllers
 
             // Call the service to update the Ecommerce system (this is just an example)
             //var ecommerceService = new EcommerceService(); // Assume this is a service to call the API
-            _ecommerceService.UpdateOrderInEcommerce(refundModel);
+            await _ecommerceService.UpdateOrderInEcommerce(refundModel);
 
 
             TempData["ShowPopup"] = true;

@@ -1,0 +1,11 @@
+{
+  "dependencies": {
+    "mssql4": {
+      "serviceConnectorResourceId": "/subscriptions/[parameters('subscriptionId')]/resourceGroups/[parameters('serviceConnectorResourceGroupName')]/providers/Microsoft.Web/sites/GizmodePOSsystem/providers/Microsoft.ServiceLinker/linkers/ConnectionStringsDatabaseConnection2_6D383B6288",
+      "secretStore": "AzureAppSettings",
+      "resourceId": "/subscriptions/[parameters('subscriptionId')]/resourceGroups/[parameters('resourceGroupName')]/providers/Microsoft.Sql/servers/gizmode/databases/POSDB",
+      "type": "mssql.azure",
+      "connectionId": "ConnectionStrings:DatabaseConnection2"
+    }
+  }
+}

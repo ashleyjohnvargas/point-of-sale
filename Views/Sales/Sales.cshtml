@@ -82,9 +82,9 @@
                             <td>@transaction.SaleDate.ToString("yyyy-MM-dd")</td>
                             <td>@transaction.OrderStatus</td>
                             <td>
-                                <button type="button" class="btn btn-danger btn-sm refund-btn" data-order-id="@transaction.OrderNumber" data-customer-name="@transaction.CustomerName" data-order-date="@transaction.SaleDate.ToString("yyyy-MM-dd")" data-amount="@transaction.Amount.ToString("C")" data-transaction-id="@transaction.TransactionId">
+                                @**@  <button type="button" class="btn btn-danger btn-sm refund-btn" data-order-id="@transaction.OrderNumber" data-customer-name="@transaction.CustomerName" data-order-date="@transaction.SaleDate.ToString("yyyy-MM-dd")" data-amount="@transaction.Amount.ToString("C")" data-transaction-id="@transaction.TransactionId">
                                     <i class="fas fa-exchange-alt"></i> Refund
-                                </button>
+                                </button> 
 
                                 <a asp-action="Invoice" asp-route-id="@transaction.TransactionId" class="action-btn" style="padding: 5px 10px 5.6px;">
                                     <i class="fas fa-receipt"></i>

@@ -207,16 +207,16 @@ function updateStatus(element) {
 	// Optional: Make an AJAX call to update the status in your database
 	// Example:
 	fetch('/updateStatus', {
-	     method: 'POST',
-	     headers: {
-	         'Content-Type': 'application/json',
-	     },
-	     body: JSON.stringify({ invoiceNumber, newValue }),
-	 }).then(response => {
-	     if (response.ok) {
-	         alert('Status updated successfully!');
-	     } else {
-	         alert('Failed to update status');
-	     }
-	 });
+		method: 'POST',
+		headers: {
+			'Content-Type': 'application/json',
+		},
+		body: JSON.stringify({ invoiceNumber, newValue }),
+	}).then(response => {
+		if (response.ok) {
+			alert('Status updated successfully!');
+		} else {
+			alert('Failed to update status');
+		}
+	});
 }

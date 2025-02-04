@@ -1,5 +1,5 @@
 ﻿@{
-    ViewData["Title"] = "Checkout";
+	ViewData["Title"] = "Checkout";
 	Layout = "~/Views/Shared/_Layout.cshtml";
 
 }
@@ -7,7 +7,7 @@
 @using System.Linq
 <div class="head-title">
 	<div class="left">
-		<h1> Checkout</h1>	
+		<h1> Checkout</h1>
 	</div>
 	<div class="right">
 		<p id="current-date" style="margin: 0; font-size: 16px; color: #555;"></p>
@@ -15,7 +15,7 @@
 </div>
 @if (Model == null)
 {
-    <p style="color: red;">Error: Model is null.</p>
+	<p style="color: red;">Error: Model is null.</p>
 }
 
 
@@ -24,7 +24,7 @@
 	<div class="table-data">
 		<div class="order">
 			<div class="head">
-				<h3>Shopping Cart</h3>		
+				<h3>Shopping Cart</h3>
 				<i class='bx bx-filter'></i> <!--Filter cart by name or price-->
 			</div>
 			<table>
@@ -37,10 +37,10 @@
 					</tr>
 				</thead>
 				<tbody>
-					@* @if (Model.OrderItems == null || !Model.OrderItems.Any()) *@
-					@* { *@
-					@* 	<tr><td colspan="4">No items in the cart.</td></tr> *@
-					@* } *@
+					@if (Model.OrderItems == null || !Model.OrderItems.Any())
+					{
+						<tr><td colspan="4">No items in the cart.</td></tr>
+					}
 
 					@foreach (var item in Model.OrderItems)
 					{
@@ -54,10 +54,10 @@
 				</tbody>
 			</table>
 		</div>
-		
+
 
 		<div class="box-info" style="margin-top: 0px; max-width:350px;">
-			<h3>Summary</h3>	
+			<h3>Summary</h3>
 			<p>Customer: @Model.CustomerName</p>
 			<h3>Total: <span id="total-amount">@Model.TotalAmount.ToString("C")</span></h3>
 			<p>Payment Method: @Model.PaymentMethod</p>
@@ -65,8 +65,8 @@
 
 			<form asp-controller="Checkout" asp-action="CheckoutOrder" method="post" style="display: flex;flex-direction: column;align-items: stretch;">
 				<input type="hidden" name="OrderId" value="@Model.OrderId" />
-				<label for="payment-amount" >Payment Amount:</label>
-				<input type="text" id="PaidAmount" name="PaidAmount" required>
+				<label for="payment-amount">Payment Amount:</label>
+				<input type="text" id="PaidAmount" name="PaidAmount">
 				<label for="change-amount">Change:</label>
 				<input type="number" id="Change" name="Change" readonly>
 				<button type="submit" class="btn-checkout" style="margin-left:0;">Checkout</button>
@@ -75,8 +75,8 @@
 
 	</div>
 </div>
-	
-	<script>
+
+<script>
 		// JavaScript to update the current date
 		function updateCurrentDate() {
 			const now = new Date();
@@ -135,7 +135,7 @@
 		});
 
 
-		
+
 
 
 		// Sanitize input before form submission (remove commas)
@@ -150,4 +150,4 @@
 
 
 
-	</script>
+</script>

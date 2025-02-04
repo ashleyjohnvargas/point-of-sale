@@ -13,13 +13,17 @@
       "type": "mssql",
       "connectionId": "ConnectionStrings:DatabaseConnection1"
     },
+    "mssql5": {
+      "type": "mssql",
+      "connectionId": "ConnectionStrings:DatabaseConnection3"
+    },
     "mssql4": {
       "type": "mssql",
       "connectionId": "ConnectionStrings:DatabaseConnection2"
     },
-    "mssql5": {
+    "mssql6": {
       "type": "mssql",
-      "connectionId": "ConnectionStrings:DatabaseConnection3"
+      "connectionId": "ConnectionStrings:DatabaseConnection4"
     }
   }
 }
